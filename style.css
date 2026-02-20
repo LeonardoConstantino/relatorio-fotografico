@@ -1,0 +1,606 @@
+/* ==================== RESET E VARIÁVEIS ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #1976d2;
+  --secondary-color: #424242;
+  --accent-color: #ffa726;
+  --success-color: #66bb6a;
+  --background: #fafafa;
+  --text-color: #212121;
+  --border-color: #e0e0e0;
+  --editor-width: 380px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--background);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+/* ==================== LAYOUT PRINCIPAL ==================== */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* ==================== PAINEL EDITOR (LATERAL) ==================== */
+.editor-panel {
+  width: var(--editor-width);
+  background: white;
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.editor-panel h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-section {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.editor-section:last-child {
+  border-bottom: none;
+}
+
+.editor-section h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.form-group input[type='text'],
+.form-group input[type='date'],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group input[type='color'] {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-group input[type='file'] {
+  font-size: 13px;
+}
+
+/* ==================== BOTÕES ==================== */
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1565c0;
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #303030;
+}
+
+.btn-success {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #4caf50;
+}
+
+.btn-danger {
+  background: #ef5350;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #e53935;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--secondary-color);
+}
+
+.btn-outline:hover {
+  background: var(--background);
+}
+
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ==================== SEÇÕES ADICIONADAS ==================== */
+.sections-list {
+  margin-top: 20px;
+}
+
+.section-item {
+  background: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.section-header h4 {
+  font-size: 13px;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.section-controls button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.section-content {
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.section-content.collapsed {
+  display: none;
+}
+
+/* ==================== PREVIEW DE IMAGENS ==================== */
+.image-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-preview-item {
+  position: relative;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  background: white;
+}
+
+.image-preview-item img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.image-preview-item input {
+  padding: 5px;
+  font-size: 11px;
+  border: none;
+  border-top: 1px solid var(--border-color);
+}
+
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(239, 83, 80, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== PAINEL PREVIEW ==================== */
+.preview-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  background: #e0e0e0;
+}
+
+.preview-actions {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 15px;
+  margin: -40px -40px 40px -40px;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.auto-save-indicator {
+  font-size: 12px;
+  color: var(--success-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+/* ==================== ESTILOS DO PREVIEW A4 ==================== */
+.previewSheet {
+  max-width: 210mm;
+  margin: 0 auto;
+}
+
+.sheet {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10mm;
+}
+
+/* Cabeçalho do relatório */
+.report-header {
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.report-header-left {
+  flex: 1;
+}
+
+.report-logo {
+  max-width: 120px;
+  max-height: 60px;
+  margin-bottom: 10px;
+}
+
+.report-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.report-subtitle {
+  font-size: 14px;
+  color: var(--secondary-color);
+}
+
+/* Seções no preview */
+.preview-section {
+  margin-bottom: 25px;
+  page-break-inside: avoid;
+}
+
+.preview-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Seção de informações do equipamento */
+.equipment-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  background: var(--background);
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.info-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-bottom: 3px;
+}
+
+.info-value {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* Lista com marcadores */
+.bullet-list {
+  padding-left: 20px;
+}
+
+.bullet-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* Texto livre */
+.text-content {
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Marcador de quebra de página */
+.page-break-marker {
+  border: 2px dashed #999;
+  padding: 15px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  background: repeating-linear-gradient(
+    45deg,
+    #fafafa,
+    #fafafa 10px,
+    #f0f0f0 10px,
+    #f0f0f0 20px
+  );
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+/* Grade de imagens */
+.images-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.images-grid.cols-1 {
+  grid-template-columns: 1fr;
+}
+.images-grid.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.images-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.image-item {
+  page-break-inside: avoid;
+}
+
+.image-item img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  display: block;
+}
+
+.image-caption {
+  font-size: 12px;
+  color: var(--secondary-color);
+  margin-top: 5px;
+  text-align: center;
+  font-style: italic;
+}
+
+@media print {
+  .page-break-marker {
+    display: none;
+  }
+}
+
+/* ==================== ESTILOS DE IMPRESSÃO ==================== */
+@media print {
+  /* Reset geral para impressão */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Ocultar elementos do editor */
+  .editor-panel,
+  .preview-actions {
+    display: none !important;
+  }
+
+  .preview-panel {
+    padding: 0;
+    margin: 0;
+    background: white;
+    overflow: visible;
+  }
+
+  #previewSheet {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Cada sheet é uma página */
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm !important;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-before: auto;
+    page-break-inside: avoid;
+    background: white;
+    display: block;
+    position: relative;
+  }
+
+  .sheet:last-child {
+    page-break-after: auto;
+  }
+
+  /* Evitar quebras indesejadas */
+  .preview-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .image-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .equipment-info {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-header {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Garantir que imagens não causem overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+}
+
+/* ==================== UTILITÁRIOS ==================== */
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.text-center {
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--secondary-color);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+  opacity: 0.3;
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bdbdbd;
+}

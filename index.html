@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de Relatórios Fotográficos</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css"
+    />
+
+    <style>
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    </style>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="A4">
+    <div class="app-container">
+      <!-- ==================== PAINEL EDITOR ==================== -->
+      <aside class="editor-panel">
+        <h1>📋 Relatório Fotográfico</h1>
+
+        <!-- Configurações Gerais -->
+        <div class="editor-section">
+          <h3>⚙️ Configurações Gerais</h3>
+
+          <div class="form-group">
+            <label>Logo da Empresa</label>
+            <input type="file" id="logoInput" accept="image/*" />
+          </div>
+
+          <div class="form-group">
+            <label>Título do Relatório</label>
+            <input
+              type="text"
+              id="reportTitle"
+              placeholder="Ex: Relatório de Recebimento"
+              value="Relatório de Recebimento"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Cor Primária</label>
+            <input type="color" id="primaryColor" value="#1976D2" />
+          </div>
+
+          <div class="form-group">
+            <label>Nome da Empresa</label>
+            <input type="text" id="companyName" placeholder="Nome da empresa" />
+          </div>
+
+          <div class="form-group">
+            <label>Número do Relatório</label>
+            <input
+              type="text"
+              id="reportNumber"
+              placeholder="Ex: REL-2025-001"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Data do Relatório</label>
+            <input type="text" id="reportDate" placeholder="Ex: 01/01/2025" />
+          </div>
+        </div>
+
+        <!-- Adicionar Seções -->
+        <div class="editor-section">
+          <h3>➕ Adicionar Seção</h3>
+          <div class="btn-group">
+            <button
+              class="btn btn-primary btn-block"
+              onclick="addSection('equipment')"
+            >
+              📦 Info. Equipamento
+            </button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-outline" onclick="addSection('text')">
+              📝 Texto Livre
+            </button>
+            <button class="btn btn-outline" onclick="addSection('bullets')">
+              • Lista
+            </button>
+          </div>
+          <div class="btn-group">
+            <button
+              class="btn btn-success btn-block"
+              onclick="addSection('images')"
+            >
+              📷 Grade de Imagens
+            </button>
+          </div>
+          <div class="btn-group">
+            <button
+              class="btn btn-outline btn-block"
+              onclick="addSection('pagebreak')"
+              style="border: 2px dashed #999; color: #999"
+            >
+              ⤵️ Quebra de Página
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de Seções Adicionadas -->
+        <div class="editor-section">
+          <h3>📑 Seções Adicionadas</h3>
+          <div id="sectionsList" class="sections-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">📄</div>
+              <p>Nenhuma seção adicionada ainda</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações Gerais -->
+        <div class="editor-section">
+          <button class="btn btn-danger btn-block" onclick="clearReport()">
+            🗑️ Novo Relatório
+          </button>
+        </div>
+      </aside>
+
+      <!-- ==================== PAINEL PREVIEW ==================== -->
+      <main class="preview-panel">
+        <div class="preview-actions">
+          <button class="btn btn-primary" onclick="window.print()">
+            🖨️ Gerar PDF
+          </button>
+          <button class="btn btn-secondary" onclick="saveReport()">
+            💾 Salvar
+          </button>
+          <div
+            class="auto-save-indicator"
+            id="autoSaveIndicator"
+            style="display: none"
+          >
+            ✓ Salvo automaticamente
+          </div>
+        </div>
+
+        <div id="previewSheet">
+          <section class="sheet padding-20mm">
+            <div class="empty-state">
+              <div class="empty-state-icon">👆</div>
+              <p>
+                Configure as informações e adicione seções no painel lateral
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
