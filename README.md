@@ -17,6 +17,12 @@ Todo o estado da aplicação é persistido automaticamente via `localStorage`, g
 
 ---
 
+## Preview do projeto
+
+[Gerador de Relatórios Fotográficos](https://leonardoconstantino.github.io/relatorio-fotografico/)
+
+---
+
 ## ✨ Funcionalidades
 
 - **Editor em tempo real** com painel lateral e preview A4 sincronizado
@@ -49,7 +55,7 @@ Todo o estado da aplicação é persistido automaticamente via `localStorage`, g
 │  │   Seções       │        │ • Páginas separadas      │ │
 │  │ • Seções       │        │                          │ │
 │  │   Adicionadas  │        └──────────────────────────┘ │
-│  └────────────────┘                    │                 │
+│  └────────────────┘                   │                 │
 │           │                           │                 │
 │           ▼                           ▼                 │
 │     localStorage                window.print()          │
@@ -75,7 +81,7 @@ Nenhum. Apenas um navegador moderno (Chrome, Edge ou Firefox recomendados para m
 
 1. Faça o download ou clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/gerador-relatorio-fotografico.git
+   git clone https://github.com/leonardoconstantino/relatorio-fotografico.git
    ```
 
 2. Abra o arquivo `index.html` diretamente no navegador:
@@ -104,11 +110,12 @@ Nenhum. Apenas um navegador moderno (Chrome, Edge ou Firefox recomendados para m
 ## 📁 Estrutura do Projeto
 
 ```
-gerador-relatorio-fotografico/
-└── index.html        # Aplicação completa (HTML + CSS + JS em único arquivo)
+relatorio-fotografico/
+ ┣ 📜index.html  
+ ┣ 📜main.js
+ ┣ 📜README.md
+ ┗ 📜style.css
 ```
-
-A aplicação foi intencionalmente construída como um único arquivo HTML autocontido, facilitando distribuição e uso offline.
 
 ---
 
