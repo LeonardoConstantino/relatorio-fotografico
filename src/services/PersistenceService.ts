@@ -67,9 +67,10 @@ export class PersistenceService {
     if (this.isSaving) return;
 
     this.isSaving = true;
+    EventBus.emit(STORE_EVENTS.PERSISTENCE_SAVING);
     try {
       await this.storage.setValue(report);
-      // Opcional: emitir evento de "Saved" para a UI mostrar um check
+      EventBus.emit(STORE_EVENTS.PERSISTENCE_SAVED);
     } catch (error) {
       logger.error('Persistence', 'Erro ao salvar automaticamente', error);
     } finally {

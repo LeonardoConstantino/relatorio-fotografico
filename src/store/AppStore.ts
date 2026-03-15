@@ -13,6 +13,8 @@ export const STORE_EVENTS = {
   SECTION_REMOVED: 'store:section_removed',
   SECTIONS_REORDERED: 'store:sections_reordered',
   LAYOUT_WARNING: 'store:layout_warning',
+  PERSISTENCE_SAVING: 'store:persistence_saving',
+  PERSISTENCE_SAVED: 'store:persistence_saved',
 };
 
 class AppStore {

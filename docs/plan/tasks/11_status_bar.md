@@ -35,6 +35,6 @@ Implementar uma barra de status minimalista e fixa na base do painel do editor p
     *   Deve escutar o `EventBus` para atualizar os contadores em tempo real.
 
 ## Critérios de Aceite
-- [ ] A barra permanece visível mesmo ao rolar o editor para cima.
-- [ ] Os contadores de seções atualizam imediatamente ao adicionar/remover.
-- [ ] O atributo `title` fornece as métricas detalhadas corretamente.
+- [x] A barra permanece visível mesmo ao rolar o editor para cima.
+- [x] Os contadores de seções atualizam imediatamente ao adicionar/remover.
+- [x] O atributo `title` fornece as métricas detalhadas corretamente.

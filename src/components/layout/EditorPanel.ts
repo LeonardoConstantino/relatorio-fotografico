@@ -9,6 +9,7 @@ import '../features/EquipmentSectionEditor';
 import '../features/TextSectionEditor';
 import '../features/BulletSectionEditor';
 import '../features/SortableList';
+import '../ui/StatusBar';
 
 export class EditorPanel extends HTMLElement {
   private isInitialized = false;
@@ -106,10 +107,12 @@ export class EditorPanel extends HTMLElement {
         </div>
       </div>
 
-      <div class="mt-10">
-        <app-button variant="danger" id="clear-report">🗑️ Novo Relatório</app-button>
+      <div class="mt-10 pb-12">
+        <app-button variant="danger" id="clear-report" class="w-full">🗑️ Novo Relatório</app-button>
       </div>
-    `;
+      <app-status-bar></app-status-bar>
+      `;
+
 
     this.setupActions();
   }
