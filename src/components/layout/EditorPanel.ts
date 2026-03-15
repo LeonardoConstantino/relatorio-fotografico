@@ -2,6 +2,7 @@ import { store, STORE_EVENTS } from '../../store/AppStore';
 import EventBus from '../../libs/EventBus';
 import { SectionType } from '../../types/Section';
 import { escapeHTML } from '../../utils/sanitize';
+import { confirmDialog } from '../ui/confirm';
 
 // Import Editores
 import '../features/ImageSectionEditor';
@@ -108,7 +109,11 @@ export class EditorPanel extends HTMLElement {
       </div>
 
       <div class="mt-10 pb-12">
-        <app-button variant="danger" id="clear-report" class="w-full">🗑️ Novo Relatório</app-button>
+        <div class="flex items-center gap-2 mb-3 group cursor-pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" id="keep-config" class="w-4 h-4 rounded border-studio-border bg-studio-elevated accent-accent-primary cursor-pointer" checked />
+          <label class="label-technical !mb-0 cursor-pointer group-hover:text-white transition-colors">Manter Logo e Dados da Empresa</label>
+        </div>
+        <app-button variant="danger" id="clear-report" class="w-full">🗑️ Novo Relatório (Limpar)</app-button>
       </div>
       <app-status-bar></app-status-bar>
       `;
@@ -218,9 +223,24 @@ export class EditorPanel extends HTMLElement {
       }
     });
 
-    this.querySelector('#clear-report')?.addEventListener('click', () => {
-      if (confirm('Limpar dados?')) {
-        store.clearReport();
+    this.querySelector('#keep-config')?.addEventListener('click', (e) => e.stopPropagation());
+
+    this.querySelector('#clear-report')?.addEventListener('click', async () => {
+      const keep = (this.querySelector('#keep-config') as HTMLInputElement)?.checked;
+      const title = 'Novo Relatório';
+      const msg = keep 
+        ? 'Deseja limpar todas as seções? (A logo e os dados da empresa serão mantidos).' 
+        : 'Deseja limpar TODO o relatório e configurações? Esta ação é irreversível.';
+
+      const confirmed = await confirmDialog.ask(title, msg, {
+        variant: 'danger',
+        confirmText: 'Sim, Limpar',
+        cancelText: 'Cancelar',
+        countdown: 3
+      });
+
+      if (confirmed) {
+        store.clearReport(keep);
       }
     });
 

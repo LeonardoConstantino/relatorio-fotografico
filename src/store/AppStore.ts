@@ -122,10 +122,17 @@ class AppStore {
 
   /**
    * Reseta o relatório para o estado inicial
+   * @param keepConfig Se true, mantém as configurações globais (logo, cor, empresa)
    */
-  clearReport(): void {
+  clearReport(keepConfig: boolean = false): void {
+    const currentConfig = { ...this._report.config };
     this._report = this.getInitialState();
-    logger?.debug('Store', 'Relatório limpo para estado inicial');
+    
+    if (keepConfig) {
+      this._report.config = currentConfig;
+    }
+    
+    logger?.debug('Store', `Relatório limpo. KeepConfig: ${keepConfig}`);
     this.notify();
   }
 

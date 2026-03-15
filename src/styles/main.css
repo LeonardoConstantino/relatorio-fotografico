@@ -130,6 +130,18 @@
   }
 }
 
+/*===========================================
+    Custom confirm dialog AURA TECHNICAL
+============================================= */
+ui-confirm {
+  --uc-panel-bg: var(--color-studio-elevated);
+  --uc-panel-border: var(--color-studio-border);
+  --uc-font-family: var(--font-sans);
+  --uc-color-title: var(--color-paper-text);
+  --uc-btn-cancel-border: var(--color-studio-border);
+  --uc-color-danger: var(--color-accent-danger);
+}
+
 /* ==========================================
    ESTILOS DE IMPRESSÃO (CRÍTICO)
    ========================================== */

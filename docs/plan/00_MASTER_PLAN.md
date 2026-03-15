@@ -22,7 +22,7 @@ Este arquivo coordena a execução de tarefas por múltiplos agentes.
 | ID | Task | Status | Dependências |
 |----|------|--------|--------------|
 | **11** | [Barra de Status Fixa (Editor Footer)](./tasks/11_status_bar.md) | [x] | 03, 04, 06 |
-| **12** | [Persistência de Configurações no Reset](./tasks/12_persistent_settings.md) | [ ] | 03, 06 |
+| **12** | [Persistência de Configurações no Reset](./tasks/12_persistent_settings.md) | [x] | 03, 06 |
 | **13** | [Controles de Visibilidade e Proporção](./tasks/13_layout_controls.md) | [ ] | 06 |
 | **14** | [Início Rápido e Editor de Templates](./tasks/14_templates_system.md) | [ ] | 03, 04, 06 |
 | **15** | [Importação/Exportação JSON Raw](./tasks/15_import_export_json.md) | [ ] | 02, 03, 06 |

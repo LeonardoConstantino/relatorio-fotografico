@@ -23,6 +23,6 @@ Implementar uma opção para limpar apenas o conteúdo (seções) do relatório,
     *   Passar este estado para a chamada `store.clearReport(keepConfig)`.
 
 ## Critérios de Aceite
-- [ ] Ao marcar a opção e resetar, as seções desaparecem, mas a Logo e o Nome da Empresa permanecem.
-- [ ] Ao desmarcar e resetar, tudo volta ao estado de fábrica (comportamento atual).
-- [ ] O estado do checkbox deve ser intuitivo e estar visível na zona de ação de reset.
+- [x] Ao marcar a opção e resetar, as seções desaparecem, mas a Logo e o Nome da Empresa permanecem.
+- [x] Ao desmarcar e resetar, tudo volta ao estado de fábrica (comportamento atual).
+- [x] O estado do checkbox deve ser intuitivo e estar visível na zona de ação de reset.
