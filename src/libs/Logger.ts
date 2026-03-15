@@ -23,7 +23,15 @@ export class Logger {
   }
 
   private format(namespace: string, msg: string): string {
-    return `${this.prefix} [${namespace}] ${msg}`;
+    const timestamp = new Intl.DateTimeFormat('pt-br', {
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      hour12: false,
+    }).format(new Date());
+
+    return `${this.prefix} [${namespace}] ${msg} (${timestamp})`;
   }
 
   debug(namespace: string, msg: string, ...args: any[]): void {

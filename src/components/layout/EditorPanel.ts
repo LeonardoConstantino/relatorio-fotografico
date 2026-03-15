@@ -26,9 +26,13 @@ export class EditorPanel extends HTMLElement {
     EventBus.on(STORE_EVENTS.SECTION_ADDED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.SECTION_REMOVED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.SECTIONS_REORDERED, () => this.renderSections());
-    EventBus.on(STORE_EVENTS.REPORT_UPDATED, (data: any) =>
-      this.syncInputs(data),
-    );
+    EventBus.on(STORE_EVENTS.REPORT_UPDATED, (data: any) => {
+      this.syncInputs(data);
+      // Se não há seções e o container tem algo, re-renderiza (caso de reset)
+      if (data.sections?.length === 0) {
+        this.renderSections();
+      }
+    });
 
     EventBus.on(STORE_EVENTS.LAYOUT_WARNING, (data: any) => {
       const banner = this.querySelector('#layout-alert');
@@ -153,6 +157,14 @@ export class EditorPanel extends HTMLElement {
       );
     }
 
+    // Reset do preview da logo
+    const logoPreview = this.querySelector('#logo-preview');
+    if (logoPreview) {
+      logoPreview.innerHTML = data.config.logo
+        ? `<img src="${data.config.logo}" class="w-full h-full object-contain" />`
+        : '<span class="text-xs">LOGO</span>';
+    }
+
     const inputs = this.querySelectorAll<any>('app-input[data-prop]');
     inputs.forEach((input) => {
       const prop = input.getAttribute('data-prop');
@@ -205,8 +217,7 @@ export class EditorPanel extends HTMLElement {
 
     this.querySelector('#clear-report')?.addEventListener('click', () => {
       if (confirm('Limpar dados?')) {
-        localStorage.clear();
-        location.reload();
+        store.clearReport();
       }
     });
 

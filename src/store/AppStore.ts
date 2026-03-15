@@ -118,6 +118,15 @@ class AppStore {
     this.notify();
   }
 
+  /**
+   * Reseta o relatório para o estado inicial
+   */
+  clearReport(): void {
+    this._report = this.getInitialState();
+    logger?.debug('Store', 'Relatório limpo para estado inicial');
+    this.notify();
+  }
+
   private notify(): void {
     this._report.meta.lastModified = Date.now();
     EventBus.emit(STORE_EVENTS.REPORT_UPDATED, this.state);

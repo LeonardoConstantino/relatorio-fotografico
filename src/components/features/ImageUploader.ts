@@ -17,6 +17,7 @@ export class ImageUploader extends HTMLElement {
 
     input?.addEventListener('change', async (e: any) => {
       const files = Array.from(e.target.files as FileList);
+      console.log('files :', files);
       await this.processFiles(files);
       input.value = ''; // Reset para permitir re-upload do mesmo arquivo
     });
