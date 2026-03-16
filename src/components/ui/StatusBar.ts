@@ -48,28 +48,33 @@ export class StatusBar extends HTMLElement {
 
     const titleInfo = `Último salvamento: ${this.lastSaved}\nUso de Disco: ${this.storageUsage}MB / 50MB (Estimado)\nTrace ID: ${traceId}\nVersão do Schema: ${state.meta.schemaVersion}`;
 
-    this.className = 'fixed bottom-0 left-0 w-105 bg-studio-base border-t border-studio-border h-8 flex items-center px-4 justify-between z-50 select-none cursor-help';
-    this.setAttribute('title', titleInfo);
-
+    this.className = 'fixed bottom-0 left-0 w-105 bg-studio-base border-t border-studio-border h-8 flex items-center px-4 justify-between z-50 select-none';
+    
     this.innerHTML = `
-      <div class="flex items-center gap-4 font-mono text-[9px] text-studio-muted">
-        <div class="flex items-center gap-1.5">
+      <div class="flex items-center gap-4 font-mono text-[9px] text-studio-muted h-full">
+        <div class="flex items-center gap-1.5 cursor-help" title="${titleInfo}">
           <span class="w-1.5 h-1.5 rounded-full ${this.isSaving ? 'bg-accent-cyan animate-pulse' : 'bg-green-500'}"></span>
-          <span class="uppercase tracking-widest">${this.isSaving ? 'Salvando...' : 'Sincronizado'}</span>
+          <span class="uppercase tracking-widest">${this.isSaving ? 'Syncing...' : 'Sync'}</span>
         </div>
         <div class="w-px h-3 bg-studio-border"></div>
-        <div class="flex gap-3">
-          <span>MODS: ${sectionCount}</span>
-          <span>FOTOS: ${imageCount}</span>
-          <span>PAGS: ${pageCount}</span>
+        <div class="flex gap-3 h-full items-center">
+          <span title="Total de Módulos">MODS: ${sectionCount}</span>
+          <span title="Total de Fotos">FOTOS: ${imageCount}</span>
+          <span title="Páginas Estimadas">PAGS: ${pageCount}</span>
+          <span id="view-toggle-status" class="text-accent-primary font-bold cursor-pointer hover:scale-110 transition-transform px-1" title="Alternar Preview (Alt+P)">VIEW: ${state.ui.previewVisible ? '👁️' : '🙈'}</span>
         </div>
       </div>
-      <div class="flex items-center gap-2 font-mono text-[9px] text-studio-muted">
+      <div class="flex items-center gap-2 font-mono text-[9px] text-studio-muted cursor-help" title="${titleInfo}">
         <span>ID: ${traceId}</span>
         <div class="w-px h-3 bg-studio-border"></div>
         <span>${this.storageUsage}MB</span>
       </div>
     `;
+
+    this.querySelector('#view-toggle-status')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      store.togglePreview();
+    });
   }
 }
 

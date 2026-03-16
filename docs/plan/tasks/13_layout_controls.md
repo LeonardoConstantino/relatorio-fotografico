@@ -27,7 +27,7 @@ Implementar a funcionalidade de ocultar/mostrar o painel de preview e ajustar a 
     *   Permitir que o usuário "puxe" a divisória entre os painéis para redimensionar (Resizer Bar).
 
 ## Critérios de Aceite
-- [ ] O usuário pode ocultar o preview com um clique, ganhando espaço total para o editor.
-- [ ] O estado de visibilidade persiste ao recarregar a página (opcional, mas recomendado).
-- [ ] Em telas pequenas, a aplicação deve se comportar de forma fluida ao alternar os modos.
-- [ ] O botão de toggle deve ser visualmente consistente com o Design System.
+- [x] O usuário pode ocultar o preview com um clique, ganhando espaço total para o editor.
+- [x] O estado de visibilidade persiste ao recarregar a página (opcional, mas recomendado).
+- [x] Em telas pequenas, a aplicação deve se comportar de forma fluida ao alternar os modos.
+- [x] O botão de toggle deve ser visualmente consistente com o Design System.

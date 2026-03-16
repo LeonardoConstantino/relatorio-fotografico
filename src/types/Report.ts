@@ -11,10 +11,19 @@ export interface ReportMeta {
 }
 
 /**
+ * Estado da interface local (não impresso no relatório)
+ */
+export interface ReportUI {
+  previewVisible: boolean;
+  previewScale: number; // Ex: 1.0, 0.75, 0.5
+}
+
+/**
  * Estrutura completa de um Relatório Fotográfico (Domain Model)
  */
 export interface Report {
   meta: ReportMeta;
   config: ReportConfig;
   sections: ReportSection[];
+  ui: ReportUI;
 }

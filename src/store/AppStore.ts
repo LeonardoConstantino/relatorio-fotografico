@@ -40,7 +40,27 @@ class AppStore {
         reportDate: new Date().toLocaleDateString('pt-BR'),
       },
       sections: [],
+      ui: {
+        previewVisible: true,
+        previewScale: 1,
+      },
     };
+  }
+
+  /**
+   * Alterna a visibilidade do painel de preview
+   */
+  togglePreview(): void {
+    this._report.ui.previewVisible = !this._report.ui.previewVisible;
+    this.notify();
+  }
+
+  /**
+   * Define o zoom do preview
+   */
+  setPreviewScale(scale: number): void {
+    this._report.ui.previewScale = Math.max(0.2, Math.min(2.0, scale));
+    this.notify();
   }
 
   /**

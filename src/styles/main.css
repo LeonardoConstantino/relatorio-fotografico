@@ -60,13 +60,29 @@
   }
 
   .panel-editor {
-    @apply w-105 bg-studio-base border-r border-studio-border p-6 overflow-y-auto shadow-2xl z-10 shrink-0;
+    @apply bg-studio-base border-r border-studio-border p-6 overflow-y-auto shadow-2xl z-10 shrink-0;
+    width: 26rem; /* w-105 aproximado */
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), border 0.5s;
+  }
+
+  .panel-editor.full-width {
+    width: 100% !important;
+    border-right-color: transparent !important;
   }
 
   .panel-preview {
     @apply flex-1 bg-paper-desk p-10 overflow-y-auto flex flex-col items-center;
-    /* Suaviza a rolagem para o preview */
     scroll-behavior: smooth;
+    transition: opacity 0.5s, transform 0.5s, max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 100%;
+  }
+
+  .panel-preview.collapsed {
+    max-width: 0 !important;
+    opacity: 0 !important;
+    transform: translateX(20px);
+    overflow: hidden;
+    padding: 0 !important;
   }
 
   .title-studio {
@@ -164,9 +180,20 @@ ui-confirm {
     width: 210mm;
     padding: 20mm !important;
     margin: 0 !important;
+    transform: none !important;
     box-shadow: none !important;
     border: none !important;
-    page-break-after: always; /* Força cada .sheet-a4 em uma nova página */
+  }
+
+  .sheet-a4:not(:last-of-type) {
+    page-break-after: always;
+  }
+
+  /* Garante que o container de folhas não adicione espaço na impressão */
+  .sheets-wrapper {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   /* Garante que o fundo das seções de equipamento apareça */

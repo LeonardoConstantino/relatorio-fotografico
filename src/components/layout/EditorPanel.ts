@@ -60,7 +60,12 @@ export class EditorPanel extends HTMLElement {
         <span>Atenção: O conteúdo ultrapassou o limite da página A4. Insira uma quebra de página ou reduza os textos.</span>
       </div>
 
-      <h1 class="title-studio">📋 Aura Estúdio</h1>
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="title-studio !mb-0">📋 Aura Estúdio</h1>
+        <button id="toggle-preview" class="btn btn-outline !py-1 !px-2 text-xs" title="Alternar Preview (Alt+P)">
+          ${store.state.ui.previewVisible ? '👁️' : '🙈'}
+        </button>
+      </div>
 
       <section-card header-title="⚙️ Configurações Gerais" section-id="global-config" hide-remove>
         <div class="space-y-4">
@@ -182,9 +187,25 @@ export class EditorPanel extends HTMLElement {
         }
       }
     });
+
+    const toggleBtn = this.querySelector('#toggle-preview');
+    if (toggleBtn) {
+      toggleBtn.textContent = data.ui.previewVisible ? '👁️' : '🙈';
+    }
   }
 
   private setupActions() {
+    this.querySelector('#toggle-preview')?.addEventListener('click', () =>
+      store.togglePreview(),
+    );
+
+    window.addEventListener('keydown', (e) => {
+      if (e.altKey && (e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+        store.togglePreview();
+      }
+    });
+
     this.querySelector('#add-equipment')?.addEventListener('click', () =>
       store.addSection('equipment'),
     );

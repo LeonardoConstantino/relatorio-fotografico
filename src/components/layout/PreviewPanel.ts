@@ -12,11 +12,11 @@ export class PreviewPanel extends HTMLElement {
 
   private checkOverflow() {
     const pages = this.querySelectorAll('.sheet-a4');
-    const overflowAlert = this.querySelector('#overflow-alert') as HTMLElement;
     let hasOverflow = false;
 
     pages.forEach((page) => {
       const content = page.querySelector('.preview-content');
+      const overflowAlert = page.querySelector('#overflow-alert');
       if (content) {
         if (content.scrollHeight > content.clientHeight + 5) {
           page.classList.add(
@@ -24,8 +24,8 @@ export class PreviewPanel extends HTMLElement {
             'ring-accent-danger/30',
             'border-accent-danger',
           );
-          overflowAlert?.classList.remove('hidden');
           hasOverflow = true;
+          overflowAlert?.classList.remove('hidden');
         } else {
           page.classList.remove(
             'ring-4',
@@ -44,7 +44,7 @@ export class PreviewPanel extends HTMLElement {
   }
 
   render() {
-    const { config, sections, meta } = store.state;
+    const { config, sections, meta, ui } = store.state;
     this.className = 'panel-preview';
 
     // Aplica a cor primária EXCLUSIVAMENTE para o relatório
@@ -68,6 +68,7 @@ export class PreviewPanel extends HTMLElement {
         1,
         true,
         '',
+        ui.previewScale
       );
       return;
     }
@@ -155,14 +156,22 @@ export class PreviewPanel extends HTMLElement {
     const traceId = meta.createdAt.toString(36).toUpperCase();
 
     this.innerHTML = `
-      <div class="preview-actions flex flex-col gap-4 mb-8 sticky top-0 z-20 bg-paper-desk/80 backdrop-blur-xs p-4 rounded-lg shadow-sm">
+      <div class="preview-actions flex flex-col gap-4 mb-8 sticky top-0 z-20 bg-paper-desk/80 backdrop-blur-xs p-4 rounded-lg shadow-sm w-full max-w-[210mm]">
         <div class="flex justify-between gap-4 items-center w-full">
-          <app-button variant="primary" id="btn-print-action" title="Selecione 'Salvar como PDF'
+          <div class="flex items-center gap-2">
+            <app-button variant="primary" id="btn-print-action" title="Selecione 'Salvar como PDF'
 Configure:
   - Tamanho do papel: A4
   - Margens: Nenhuma (None)
-  - Gráficos de fundo: Ativado ✅ (para preservar cores)">🖨️ Gerar PDF Profissional</app-button>
-          <div class="flex items-center gap-2 text-paper-text/40 text-xs font-mono">
+  - Gráficos de fundo: Ativado ✅ (para preservar cores)">🖨️ PDF</app-button>
+            <div class="flex items-center bg-white/50 rounded-md border border-paper-desk p-1 gap-1">
+              <button id="zoom-out" class="p-1 hover:bg-white rounded transition-colors" title="Zoom Out">➖</button>
+              <span class="text-[10px] font-mono font-bold w-12 text-center text-paper-text/60">${Math.round(ui.previewScale * 100)}%</span>
+              <button id="zoom-in" class="p-1 hover:bg-white rounded transition-colors" title="Zoom In">➕</button>
+              <button id="zoom-reset" class="text-[10px] px-1 text-paper-text/30 hover:text-paper-text hover:bg-white rounded transition-colors font-bold" title="Reset Zoom">1:1</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-paper-text/40 text-[10px] font-mono">
             <span>A4 210x297mm</span>
             <span class="w-1 h-1 rounded-full bg-paper-text/20"></span>
             <span>ID: ${traceId}</span>
@@ -172,12 +181,16 @@ Configure:
           ⚠️ Conteúdo excedeu o limite. Use "Quebra de Página".
         </div>
       </div>
-      ${currentPages.map((html, i) => this.renderPage(config, html, i + 1, currentPages.length, i === 0, traceId)).join('')}
+      <div class="sheets-wrapper flex flex-col items-center">
+        ${currentPages.map((html, i) => this.renderPage(config, html, i + 1, currentPages.length, i === 0, traceId, ui.previewScale)).join('')}
+      </div>
     `;
 
-    this.querySelector('#btn-print-action')?.addEventListener('click', () =>
-      window.print(),
-    );
+    this.querySelector('#btn-print-action')?.addEventListener('click', () => window.print());
+    this.querySelector('#zoom-in')?.addEventListener('click', () => store.setPreviewScale(ui.previewScale + 0.1));
+    this.querySelector('#zoom-out')?.addEventListener('click', () => store.setPreviewScale(ui.previewScale - 0.1));
+    this.querySelector('#zoom-reset')?.addEventListener('click', () => store.setPreviewScale(1.0));
+
     setTimeout(() => this.checkOverflow(), 150);
   }
 
@@ -188,13 +201,14 @@ Configure:
     total: number,
     isFirstPage: boolean,
     traceId: string,
+    scale: number = 1
   ): string {
     const reportRef = config.reportNumber
       ? `REF: ${escapeHTML(config.reportNumber)}`
       : `TRC: ${traceId}`;
 
     return `
-      <div class="sheet-a4 transition-all duration-300">
+      <div class="sheet-a4 transition-all duration-300 origin-top" style="transform: scale(${scale}); margin-bottom: calc(-297mm * ${1 - scale} + 10mm)">
         ${
           isFirstPage
             ? `
