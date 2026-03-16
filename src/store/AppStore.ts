@@ -1,6 +1,6 @@
 import { Report } from '../types/Report';
 import { ReportConfig } from '../types/Config';
-import { ReportSection, SectionType, SectionData } from '../types/Section';
+import { ReportSection, SectionType, SectionData, ReportTemplate } from '../types/Section';
 import EventBus from '../libs/EventBus';
 import { logger } from '../libs/Logger';
 
@@ -19,6 +19,7 @@ export const STORE_EVENTS = {
 
 class AppStore {
   private _report: Report;
+  private _customTemplate: ReportTemplate | null = null;
 
   constructor() {
     this._report = this.getInitialState();
@@ -154,6 +155,73 @@ class AppStore {
     
     logger?.debug('Store', `Relatório limpo. KeepConfig: ${keepConfig}`);
     this.notify();
+  }
+
+  /**
+   * Aplica um template de seções ao relatório atual
+   */
+  applyTemplate(template: ReportTemplate): void {
+    const currentConfig = { ...this._report.config };
+    this._report = this.getInitialState();
+    this._report.config = currentConfig;
+
+    template.sections.forEach((item) => {
+      const id = crypto.randomUUID();
+      const section: ReportSection = {
+        id,
+        type: item.type,
+        data: this.getDefaultDataForType(item.type),
+      };
+
+      if (item.defaultTitle) {
+        (section.data as any).title = item.defaultTitle;
+      }
+
+      this._report.sections.push(section);
+    });
+
+    logger?.info('Store', `Template "${template.name}" aplicado.`);
+    this.notify();
+  }
+
+  /**
+   * Define e persiste um template customizado
+   */
+  setCustomTemplate(template: ReportTemplate): void {
+    this._customTemplate = template;
+    logger?.info('Store', 'Template customizado atualizado.');
+    this.notify();
+  }
+
+  /**
+   * Retorna o template customizado (se existir)
+   */
+  getCustomTemplate(): ReportTemplate | null {
+    return this._customTemplate;
+  }
+
+  /**
+   * Retorna o template atual (customizado ou padrão)
+   */
+  getQuickTemplate(): ReportTemplate {
+    return this._customTemplate || this.getDefaultTemplate();
+  }
+
+  /**
+   * Retorna o template padrão
+   */
+  getDefaultTemplate(): ReportTemplate {
+    return {
+      id: 'default-quick-start',
+      name: 'Inspeção Padrão',
+      sections: [
+        { type: 'equipment', defaultTitle: '📦 Identificação do Equipamento' },
+        { type: 'images', defaultTitle: '📷 Registro de Entrada' },
+        { type: 'images', defaultTitle: '📷 Registro de Saída' },
+        { type: 'images', defaultTitle: '📷 Detalhes Críticos' },
+        { type: 'text', defaultTitle: '📝 Observações Finais' },
+      ],
+    };
   }
 
   private notify(): void {

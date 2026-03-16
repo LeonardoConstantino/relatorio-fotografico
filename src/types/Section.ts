@@ -26,11 +26,11 @@ export interface TextData extends BaseSectionData {
   content: string;
 }
 
-export interface BulletData extends BaseSectionData {
+export interface BulletsData extends BaseSectionData {
   items: string[];
 }
 
-export interface ImageData extends BaseSectionData {
+export interface ImagesData extends BaseSectionData {
   columns: 1 | 2 | 3;
   images: Array<{
     src: string; // Base64 ou URL
@@ -46,9 +46,22 @@ export interface PageBreakData extends BaseSectionData {}
 export type SectionData =
   | EquipmentData
   | TextData
-  | BulletData
-  | ImageData
+  | BulletsData
+  | ImagesData
   | PageBreakData;
+
+/**
+ * Definição de um template de início rápido
+ */
+export interface ReportTemplate {
+  id: string;
+  name: string;
+  sections: Array<{
+    type: SectionType;
+    defaultTitle?: string;
+  }>;
+}
+
 
 /**
  * Estrutura de uma seção no relatório

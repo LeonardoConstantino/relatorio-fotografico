@@ -158,7 +158,7 @@ export class PreviewPanel extends HTMLElement {
     this.innerHTML = `
       <div class="preview-actions flex flex-col gap-4 mb-8 sticky top-0 z-20 bg-paper-desk/80 backdrop-blur-xs p-4 rounded-lg shadow-sm w-full max-w-[210mm]">
         <div class="flex justify-between gap-4 items-center w-full">
-          <div class="flex items-center gap-2">
+          <div class="flex justify-between items-center gap-2">
             <app-button variant="primary" id="btn-print-action" title="Selecione 'Salvar como PDF'
 Configure:
   - Tamanho do papel: A4

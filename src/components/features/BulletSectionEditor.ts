@@ -1,5 +1,5 @@
 import { store } from '../../store/AppStore';
-import { BulletData } from '../../types/Section';
+import { BulletsData } from '../../types/Section';
 
 export class BulletSectionEditor extends HTMLElement {
   static get observedAttributes() {
@@ -10,11 +10,11 @@ export class BulletSectionEditor extends HTMLElement {
     this.render();
   }
 
-  private getSectionData(): BulletData | null {
+  private getSectionData(): BulletsData | null {
     const id = this.getAttribute('section-id');
     const section = store.state.sections.find((s) => s.id === id);
     return section && section.type === 'bullets'
-      ? (section.data as BulletData)
+      ? (section.data as BulletsData)
       : null;
   }
 

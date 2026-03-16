@@ -35,11 +35,12 @@ export class PersistenceService {
           'Relatório anterior encontrado, carregando no Store...',
         );
         store.loadState(savedReport);
-      } else {
-        logger.debug(
-          'Persistence',
-          'Nenhum relatório prévio relevante encontrado.',
-        );
+      }
+
+      // Carrega template customizado se existir
+      const savedTmpl = await this.storage.getOther('aura_custom_template');
+      if (savedTmpl) {
+        store.setCustomTemplate(savedTmpl);
       }
 
       this.setupListeners();
@@ -70,6 +71,11 @@ export class PersistenceService {
     EventBus.emit(STORE_EVENTS.PERSISTENCE_SAVING);
     try {
       await this.storage.setValue(report);
+      // Salva template se houver
+      const tmpl = (store as any)._customTemplate;
+      if (tmpl) {
+        await this.storage.setOther('aura_custom_template', tmpl);
+      }
       EventBus.emit(STORE_EVENTS.PERSISTENCE_SAVED);
     } catch (error) {
       logger.error('Persistence', 'Erro ao salvar automaticamente', error);

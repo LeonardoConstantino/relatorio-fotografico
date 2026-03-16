@@ -48,6 +48,14 @@ export class IndexedDBStorage<T> {
     await this._writeToDB(this.key, valueToStore);
   }
 
+  async setOther(key: string, value: any): Promise<void> {
+    await this._writeToDB(key, value);
+  }
+
+  async getOther(key: string): Promise<any> {
+    return await this._readFromDB(key);
+  }
+
   private async _openDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(

@@ -1,5 +1,5 @@
 import { store } from '../../store/AppStore';
-import { ImageData } from '../../types/Section';
+import { ImagesData } from '../../types/Section';
 import { escapeHTML } from '../../utils/sanitize';
 import './ImageUploader';
 
@@ -15,7 +15,7 @@ export class ImageSectionEditor extends HTMLElement {
     this.render();
   }
 
-  private updateData(newData: Partial<ImageData>) {
+  private updateData(newData: Partial<ImagesData>) {
     const id = this.getAttribute('section-id')!;
     store.updateSectionData(id, newData);
   }
@@ -25,7 +25,7 @@ export class ImageSectionEditor extends HTMLElement {
     const section = store.state.sections.find((s) => s.id === id);
     if (!section || section.type !== 'images') return;
 
-    const data = section.data as ImageData;
+    const data = section.data as ImagesData;
 
     this.innerHTML = `
       <div class="space-y-4">
@@ -92,7 +92,7 @@ export class ImageSectionEditor extends HTMLElement {
           caption: '',
         }));
         const currentData = store.state.sections.find((s) => s.id === id)
-          ?.data as ImageData;
+          ?.data as ImagesData;
         this.updateData({ images: [...currentData.images, ...newImages] });
         this.render();
       },
@@ -102,7 +102,7 @@ export class ImageSectionEditor extends HTMLElement {
       btn.addEventListener('click', () => {
         const index = parseInt(btn.getAttribute('data-index')!);
         const currentData = store.state.sections.find((s) => s.id === id)
-          ?.data as ImageData;
+          ?.data as ImagesData;
         const newImages = currentData.images.filter((_, i) => i !== index);
         this.updateData({ images: newImages });
         this.render();
@@ -113,7 +113,7 @@ export class ImageSectionEditor extends HTMLElement {
       btn.addEventListener('click', () => {
         const index = parseInt(btn.getAttribute('data-index')!);
         const currentData = store.state.sections.find((s) => s.id === id)
-          ?.data as ImageData;
+          ?.data as ImagesData;
         const modal = document.querySelector('#global-image-editor') as any;
         if (modal) modal.open(currentData.images[index].src, id, index);
       });
@@ -123,7 +123,7 @@ export class ImageSectionEditor extends HTMLElement {
       input.addEventListener('input', (e: any) => {
         const index = parseInt(input.getAttribute('data-index')!);
         const currentData = store.state.sections.find((s) => s.id === id)
-          ?.data as ImageData;
+          ?.data as ImagesData;
         const newImages = [...currentData.images];
         newImages[index].caption = e.target.value;
         this.updateData({ images: newImages });

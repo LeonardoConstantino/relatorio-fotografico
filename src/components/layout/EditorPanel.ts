@@ -11,9 +11,11 @@ import '../features/TextSectionEditor';
 import '../features/BulletSectionEditor';
 import '../features/SortableList';
 import '../ui/StatusBar';
+import '../ui/modal';
 
 export class EditorPanel extends HTMLElement {
   private isInitialized = false;
+  private draftTemplate: any = null;
 
   connectedCallback() {
     if (!this.isInitialized) {
@@ -30,10 +32,8 @@ export class EditorPanel extends HTMLElement {
     EventBus.on(STORE_EVENTS.SECTIONS_REORDERED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.REPORT_UPDATED, (data: any) => {
       this.syncInputs(data);
-      // Se não há seções e o container tem algo, re-renderiza (caso de reset)
-      if (data.sections?.length === 0) {
-        this.renderSections();
-      }
+      // Sempre re-renderiza seções em atualizações globais (reset ou template)
+      this.renderSections();
     });
 
     EventBus.on(STORE_EVENTS.LAYOUT_WARNING, (data: any) => {
@@ -65,9 +65,20 @@ export class EditorPanel extends HTMLElement {
         <button id="toggle-preview" class="btn btn-outline !py-1 !px-2 text-xs" title="Alternar Preview (Alt+P)">
           ${store.state.ui.previewVisible ? '👁️' : '🙈'}
         </button>
-      </div>
+        </div>
 
-      <section-card header-title="⚙️ Configurações Gerais" section-id="global-config" hide-remove>
+        <!-- Ações Rápidas -->
+        <div class="grid grid-cols-6 gap-2 mb-6">
+        <button id="quick-start" class="col-span-5 btn btn-primary !py-2 !text-[11px] uppercase tracking-wider" title="Inicia um novo relatório com a estrutura padrão">
+          ⚡ Início Rápido
+        </button>
+        <button id="edit-template" class="btn btn-secondary !p-0 flex items-center justify-center text-sm" title="Configurar Template Padrão">
+          ⚙️
+        </button>
+        </div>
+
+        <section-card header-title="⚙️ Configurações Gerais"
+ section-id="global-config" hide-remove>
         <div class="space-y-4">
           <!-- Upload de Logo -->
           <div>
@@ -120,6 +131,33 @@ export class EditorPanel extends HTMLElement {
         </div>
         <app-button variant="danger" id="clear-report" class="w-full">🗑️ Novo Relatório (Limpar)</app-button>
       </div>
+
+      <!-- Modal: Editor de Template -->
+      <ui-modal id="modal-template" heading="Configurar Início Rápido" size="md">
+        <div class="space-y-6">
+          <p class="text-xs text-studio-muted leading-relaxed">
+            Defina a "receita" padrão que será carregada ao clicar no botão de Início Rápido.
+          </p>
+          
+          <div id="template-editor-list" class="space-y-2 border-y border-studio-border py-4">
+            <!-- Gerado dinamicamente -->
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="equipment">+ Equipamento</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="images">+ Galeria</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="text">+ Texto</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="bullets">+ Lista</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="pagebreak">+ Quebra</button>
+          </div>
+        </div>
+
+        <div slot="footer" class="flex justify-end gap-3">
+          <button class="btn btn-outline" onclick="document.getElementById('modal-template').close()">Cancelar</button>
+          <button class="btn btn-primary" id="save-template-btn">Salvar Template</button>
+        </div>
+      </ui-modal>
+
       <app-status-bar></app-status-bar>
       `;
 
@@ -199,6 +237,55 @@ export class EditorPanel extends HTMLElement {
       store.togglePreview(),
     );
 
+    this.querySelector('#quick-start')?.addEventListener('click', async () => {
+      const confirmed = await confirmDialog.ask(
+        'Iniciar com Template?', 
+        'Isso irá apagar as seções atuais e criar a estrutura padrão de inspeção. Os dados da empresa serão mantidos.',
+        { confirmText: 'Sim, Iniciar', cancelText: 'Manter Atual', countdown: 1, variant: 'warning' }
+      );
+      if (confirmed) {
+        store.applyTemplate(store.getQuickTemplate());
+      }
+    });
+
+    // Editor de Templates
+    const modalTmpl = this.querySelector('#modal-template') as any;
+    const listTmpl = this.querySelector('#template-editor-list') as HTMLElement;
+
+    this.querySelector('#edit-template')?.addEventListener('click', () => {
+      // Cria um rascunho profundo para edição isolada
+      this.draftTemplate = JSON.parse(JSON.stringify(store.getQuickTemplate()));
+      this.renderTemplateList(listTmpl);
+      modalTmpl.open();
+    });
+
+    // Delegar cliques para botões de adicionar e remover no rascunho do template
+    this.addEventListener('click', (e: any) => {
+      const addType = e.target.getAttribute('data-add-tmpl');
+      if (addType && this.draftTemplate) {
+        this.draftTemplate.sections.push({ 
+          type: addType, 
+          defaultTitle: this.getSectionLabel(addType as any) 
+        });
+        this.renderTemplateList(listTmpl);
+      }
+
+      const removeBtn = e.target.closest('.btn-remove-tmpl');
+      if (removeBtn && this.draftTemplate) {
+        const index = parseInt(removeBtn.dataset.index);
+        this.draftTemplate.sections.splice(index, 1);
+        this.renderTemplateList(listTmpl);
+      }
+    });
+
+    this.querySelector('#save-template-btn')?.addEventListener('click', () => {
+      if (this.draftTemplate) {
+        store.setCustomTemplate(this.draftTemplate);
+        modalTmpl.close();
+      }
+    });
+
+
     window.addEventListener('keydown', (e) => {
       if (e.altKey && (e.key === 'p' || e.key === 'P')) {
         e.preventDefault();
@@ -276,6 +363,22 @@ export class EditorPanel extends HTMLElement {
     this.addEventListener('items-reordered', (e: any) =>
       store.reorderSections(e.detail.fromIndex, e.detail.toIndex),
     );
+  }
+
+  private renderTemplateList(container: HTMLElement) {
+    if (!this.draftTemplate) return;
+
+    if (this.draftTemplate.sections.length === 0) {
+      container.innerHTML = `<p class="text-center py-4 text-studio-muted italic text-[10px]">Nenhum módulo definido. Adicione abaixo.</p>`;
+      return;
+    }
+
+    container.innerHTML = this.draftTemplate.sections.map((s: any, i: number) => `
+      <div class="flex items-center justify-between bg-studio-elevated p-2 rounded border border-studio-border group">
+        <span class="text-[11px] font-mono text-white">${this.getSectionLabel(s.type)}</span>
+        <button type="button" class="btn-remove-tmpl p-1 opacity-0 group-hover:opacity-100 text-accent-danger hover:scale-110 transition-all" data-index="${i}">✕</button>
+      </div>
+    `).join('');
   }
 
   private getSectionLabel(type: SectionType): string {

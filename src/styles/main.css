@@ -60,10 +60,12 @@
   }
 
   .panel-editor {
-    @apply bg-studio-base border-r border-studio-border p-6 overflow-y-auto shadow-2xl z-10 shrink-0;
-    width: 26rem; /* w-105 aproximado */
+    @apply bg-studio-base border-r border-studio-border p-6 overflow-y-auto shadow-2xl shrink-0;
+    width: 26.25rem; /* w-105 aproximado */
     transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), border 0.5s;
+    z-index: 50; /* Garantir que fique acima do preview-actions */
   }
+
 
   .panel-editor.full-width {
     width: 100% !important;
@@ -73,7 +75,10 @@
   .panel-preview {
     @apply flex-1 bg-paper-desk p-10 overflow-y-auto flex flex-col items-center;
     scroll-behavior: smooth;
-    transition: opacity 0.5s, transform 0.5s, max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      opacity 0.5s,
+      transform 0.5s,
+      max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     max-width: 100%;
   }
 
@@ -144,22 +149,49 @@
   .report-text-primary {
     color: var(--report-primary-color) !important;
   }
-}
 
-/*===========================================
-    Custom confirm dialog AURA TECHNICAL
-============================================= */
-ui-confirm {
-  --uc-panel-bg: var(--color-studio-elevated);
-  --uc-panel-border: var(--color-studio-border);
-  --uc-font-family: var(--font-sans);
-  --uc-color-title: var(--color-paper-text);
-  --uc-btn-cancel-border: var(--color-studio-border);
-  --uc-color-danger: var(--color-accent-danger);
+  /*===========================================
+  Custom confirm dialog AURA TECHNICAL
+  ============================================= */
+  ui-confirm {
+    --uc-panel-bg: var(--color-studio-elevated);
+    --uc-panel-border: var(--color-studio-border);
+    --uc-panel-radius: 0.5rem;
+    --uc-font-family: var(--font-sans);
+    --uc-color-title: var(--color-paper-text);
+    --uc-btn-cancel-border: var(--color-studio-border);
+    --uc-color-danger: var(--color-accent-danger);
+  }
+
+  /*===========================================
+  Custom modal AURA TECHNICAL
+  ============================================= */
+
+  ui-modal::part(close-btn) {
+    color: var(--color-studio-muted);
+  }
+  ui-modal::part(close-btn):hover {
+    color: var(--color-paper-desk);
+  }
+
+  ui-modal {
+    --modal-bg: var(--color-studio-elevated);
+    --modal-border: var(--color-studio-border);
+    --modal-shadow: var(--color-studio-border);
+    --modal-radius: 0.5rem;
+    --modal-padding: 1.5rem;
+    --modal-backdrop: rgba(0, 0, 0, 0.5);
+    --modal-accent: var(--report-primary-color);
+    --modal-accent-fg: var(--color-paper-text);
+    --modal-font: var(--font-sans);
+    --modal-duration: 280ms;
+    --modal-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    --modal-z: 1000;
+  }
 }
 
 /* ==========================================
-   ESTILOS DE IMPRESSÃO (CRÍTICO)
+ESTILOS DE IMPRESSÃO (CRÍTICO)
    ========================================== */
 @media print {
   /* Oculta tudo que não é o papel */

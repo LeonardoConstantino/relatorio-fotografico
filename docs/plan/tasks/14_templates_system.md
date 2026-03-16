@@ -27,7 +27,7 @@ Implementar um sistema de templates que permite ao usuário carregar uma estrutu
     *   Método `loadTemplate()`: Limpa o relatório atual e insere as seções definidas no template.
 
 ## Critérios de Aceite
-- [ ] O botão "Início Rápido" cria instantaneamente um relatório estruturado.
-- [ ] O usuário pode mudar a "receita" do template através do modal.
-- [ ] O template personalizado persiste mesmo após fechar o navegador.
-- [ ] Visual consistente com o estilo industrial do Aura Technical.
+- [x] O botão "Início Rápido" cria instantaneamente um relatório estruturado.
+- [x] O usuário pode mudar a "receita" do template através do modal.
+- [x] O template personalizado persiste mesmo após fechar o navegador.
+- [x] Visual consistente com o estilo industrial do Aura Technical.
