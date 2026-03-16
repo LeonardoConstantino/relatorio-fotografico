@@ -1,8 +1,10 @@
 import { store, STORE_EVENTS } from '../../store/AppStore';
 import EventBus from '../../libs/EventBus';
+import { logger } from '../../libs/Logger';
 import { SectionType } from '../../types/Section';
 import { escapeHTML } from '../../utils/sanitize';
 import { confirmDialog } from '../ui/confirm';
+import { ToastManager } from '../ui/toast';
 
 // Import Editores
 import '../features/ImageSectionEditor';
@@ -30,10 +32,9 @@ export class EditorPanel extends HTMLElement {
     EventBus.on(STORE_EVENTS.SECTION_ADDED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.SECTION_REMOVED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.SECTIONS_REORDERED, () => this.renderSections());
+    EventBus.on(STORE_EVENTS.STATE_LOADED, () => this.renderSections());
     EventBus.on(STORE_EVENTS.REPORT_UPDATED, (data: any) => {
       this.syncInputs(data);
-      // Sempre re-renderiza seções em atualizações globais (reset ou template)
-      this.renderSections();
     });
 
     EventBus.on(STORE_EVENTS.LAYOUT_WARNING, (data: any) => {
@@ -124,6 +125,15 @@ export class EditorPanel extends HTMLElement {
         </div>
       </div>
 
+      <div class="mt-10 pt-8 border-t border-studio-border">
+        <label class="label-technical mb-4 block">💾 Gestão de Dados (JSON)</label>
+        <div class="grid grid-cols-2 gap-3">
+          <app-button variant="outline" id="export-json" class="!py-2 !text-[10px]">📤 Exportar Backup</app-button>
+          <app-button variant="outline" id="import-json" class="!py-2 !text-[10px]">📥 Importar JSON</app-button>
+          <input type="file" id="input-import-json" accept=".json" class="hidden" />
+        </div>
+      </div>
+
       <div class="mt-10 pb-12">
         <div class="flex items-center gap-2 mb-3 group cursor-pointer" onclick="this.querySelector('input').click()">
           <input type="checkbox" id="keep-config" class="w-4 h-4 rounded border-studio-border bg-studio-elevated accent-accent-primary cursor-pointer" checked />
@@ -133,7 +143,10 @@ export class EditorPanel extends HTMLElement {
       </div>
 
       <!-- Modal: Editor de Template -->
-      <ui-modal id="modal-template" heading="Configurar Início Rápido" size="md">
+      <ui-modal id="modal-template" size="md">
+        <div slot="header">
+          <h1>Configurar Início Rápido</h1>
+        </div>
         <div class="space-y-6">
           <p class="text-xs text-studio-muted leading-relaxed">
             Defina a "receita" padrão que será carregada ao clicar no botão de Início Rápido.
@@ -282,6 +295,61 @@ export class EditorPanel extends HTMLElement {
       if (this.draftTemplate) {
         store.setCustomTemplate(this.draftTemplate);
         modalTmpl.close();
+        ToastManager.show({ message: 'Template configurado com sucesso!', type: 'success' });
+      }
+    });
+
+    // Exportar JSON
+    this.querySelector('#export-json')?.addEventListener('click', () => {
+      const state = store.state;
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const date = new Date().toISOString().split('T')[0];
+      const fileName = `aura_report_${state.config.reportNumber || 'backup'}_${date}.json`;
+      
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      ToastManager.show({ message: 'Backup exportado com sucesso!', type: 'success' });
+      logger.info('EditorPanel', 'Relatório exportado como JSON:', fileName);
+    });
+
+    // Importar JSON
+    const fileInput = this.querySelector('#input-import-json') as HTMLInputElement;
+    this.querySelector('#import-json')?.addEventListener('click', () => fileInput.click());
+
+    fileInput?.addEventListener('change', async (e: any) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const text = await file.text();
+        const imported = JSON.parse(text);
+
+        // Validação básica de estrutura
+        if (!imported.meta || !imported.config || !Array.isArray(imported.sections)) {
+          throw new Error('Formato de arquivo Aura inválido.');
+        }
+
+        const confirmed = await confirmDialog.ask(
+          'Importar Dados?',
+          'Isso irá substituir completamente o relatório atual pelos dados do arquivo. Deseja continuar?',
+          { variant: 'warning', confirmText: 'Sim, Importar', cancelText: 'Cancelar', countdown: 1 }
+        );
+
+        if (confirmed) {
+          store.loadState(imported);
+          fileInput.value = '';
+
+          ToastManager.show({ message: 'Relatório importado com sucesso!', type: 'success' });
+          logger.info('EditorPanel', 'Relatório importado com sucesso:', file.name);
+        }
+      } catch (err) {
+        ToastManager.show({ message: 'Erro na importação: ' + (err as Error).message, type: 'error' });
+        logger.error('EditorPanel', 'Falha ao importar JSON:', err);
       }
     });
 

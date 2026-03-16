@@ -28,6 +28,6 @@ Implementar a funcionalidade de exportar o relatório atual como um arquivo `.js
     *   Exibir logs ou alertas de sucesso/erro durante a importação para garantir que o usuário saiba que os dados foram carregados.
 
 ## Critérios de Aceite
-- [ ] O arquivo exportado contém todas as imagens (Base64), seções e configurações.
-- [ ] Ao importar o arquivo gerado, o Preview e o Editor refletem o estado exato do momento da exportação.
-- [ ] O sistema impede a importação de arquivos corrompidos ou com formato inválido.
+- [x] O arquivo exportado contém todas as imagens (Base64), seções e configurações.
+- [x] Ao importar o arquivo gerado, o Preview e o Editor refletem o estado exato do momento da exportação.
+- [x] O sistema impede a importação de arquivos corrompidos ou com formato inválido.

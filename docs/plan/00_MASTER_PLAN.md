@@ -25,7 +25,7 @@ Este arquivo coordena a execução de tarefas por múltiplos agentes.
 | **12** | [Persistência de Configurações no Reset](./tasks/12_persistent_settings.md) | [x] | 03, 06 |
 | **13** | [Controles de Visibilidade e Proporção](./tasks/13_layout_controls.md) | [x] | 06 |
 | **14** | [Início Rápido e Editor de Templates](./tasks/14_templates_system.md) | [x] | 03, 04, 06 |
-| **15** | [Importação/Exportação JSON Raw](./tasks/15_import_export_json.md) | [ ] | 02, 03, 06 |
+| **15** | [Importação/Exportação JSON Raw](./tasks/15_import_export_json.md) | [x] | 02, 03, 06 |
 | **16** | [Suporte a Markdown nas Seções de Texto](./tasks/16_markdown_support.md) | [ ] | 03, 06 |
 | **17** | [Edição Avançada de Imagem (Crop, Rotate, Meta)](./tasks/17_advanced_image_editor.md) | [ ] | 07 |
 | **18** | [Sistema de Validação de Conformidade](./tasks/18_validation_system.md) | [ ] | 03, 11 |

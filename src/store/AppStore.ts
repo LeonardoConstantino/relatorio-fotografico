@@ -9,6 +9,7 @@ import { logger } from '../libs/Logger';
  */
 export const STORE_EVENTS = {
   REPORT_UPDATED: 'store:report_updated',
+  STATE_LOADED: 'store:state_loaded',
   SECTION_ADDED: 'store:section_added',
   SECTION_REMOVED: 'store:section_removed',
   SECTIONS_REORDERED: 'store:sections_reordered',
@@ -76,6 +77,7 @@ class AppStore {
    */
   loadState(report: Report): void {
     this._report = report;
+    EventBus.emit(STORE_EVENTS.STATE_LOADED, report);
     this.notify();
   }
 
@@ -154,6 +156,7 @@ class AppStore {
     }
     
     logger?.debug('Store', `Relatório limpo. KeepConfig: ${keepConfig}`);
+    EventBus.emit(STORE_EVENTS.STATE_LOADED, this.state);
     this.notify();
   }
 
@@ -181,6 +184,7 @@ class AppStore {
     });
 
     logger?.info('Store', `Template "${template.name}" aplicado.`);
+    EventBus.emit(STORE_EVENTS.STATE_LOADED, this.state);
     this.notify();
   }
 
