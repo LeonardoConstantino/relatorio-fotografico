@@ -11,5 +11,5 @@ Permitir que o usuário utilize sintaxe Markdown básica para formatar laudos t�
     *   Garantir que o CSS do preview suporte estilos de Markdown (ex: `strong` em azul primary ou negrito pesado).
 
 ## Critérios de Aceite
-- [ ] Usuário digita `**Critico**` e no PDF aparece em negrito.
-- [ ] A sanitização de HTML deve ocorrer *antes* ou de forma integrada ao parse de Markdown para manter a segurança.
+- [x] Usuário digita `**Critico**` e no PDF aparece em negrito.
+- [x] A sanitização de HTML deve ocorrer *antes* ou de forma integrada ao parse de Markdown para manter a segurança.

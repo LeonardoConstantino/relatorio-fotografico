@@ -1,3 +1,4 @@
+import './styles/markdown.css'
 import './styles/main.css';
 import { persistenceService } from './services/PersistenceService';
 import { logger } from './libs/Logger';

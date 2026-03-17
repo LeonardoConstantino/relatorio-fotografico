@@ -1,9 +1,17 @@
 import { store, STORE_EVENTS } from '../../store/AppStore';
 import EventBus from '../../libs/EventBus';
+import { logger } from '../../libs/Logger';
+import { MarkdownParser } from '../../libs/markdown';
 import { escapeHTML } from '../../utils/sanitize';
 
 export class PreviewPanel extends HTMLElement {
   private overflowDetected = false;
+  private parser: MarkdownParser
+
+  constructor() {
+    super()
+    this.parser = new MarkdownParser(logger)
+  }
 
   connectedCallback() {
     this.render();
@@ -26,6 +34,8 @@ export class PreviewPanel extends HTMLElement {
           );
           hasOverflow = true;
           overflowAlert?.classList.remove('hidden');
+
+          logger.info('PreviewPanel', 'Over flow detectado')
         } else {
           page.classList.remove(
             'ring-4',
@@ -54,6 +64,7 @@ export class PreviewPanel extends HTMLElement {
         config.primaryColor,
       );
     }
+    
 
     if (sections.length === 0) {
       this.innerHTML = this.renderPage(
@@ -98,7 +109,7 @@ export class PreviewPanel extends HTMLElement {
           `;
           break;
         case 'text':
-          sectionBody = `<div class="text-sm text-paper-text leading-relaxed text-justify whitespace-pre-wrap wrap-break-word">${escapeHTML(data.content || '...')}</div>`;
+          sectionBody = `<div class="text-sm text-paper-text leading-relaxed text-justify whitespace-pre-wrap wrap-break-word">${this.parser.parse(data.content || '...')}</div>`;
           break;
         case 'bullets':
           sectionBody = `
@@ -145,7 +156,7 @@ export class PreviewPanel extends HTMLElement {
 
       currentPageHtml += `
         <div class="preview-section">
-          <h3 class="report-text-primary font-bold uppercase text-[10px] tracking-widest mb-4 border-b report-border-primary pb-1">${escapeHTML(data.title)}</h3>
+          ${data.title ? `<h3 class="report-text-primary font-bold uppercase text-[10px] tracking-widest mb-4 border-b report-border-primary pb-1">${escapeHTML(data.title)}</h3>` : ''}
           ${sectionBody}
         </div>
       `;
