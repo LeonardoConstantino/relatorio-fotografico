@@ -62,10 +62,11 @@
   .panel-editor {
     @apply bg-studio-base border-r border-studio-border p-6 overflow-y-auto shadow-2xl shrink-0;
     width: 26.25rem; /* w-105 aproximado */
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), border 0.5s;
+    transition:
+      width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      border 0.5s;
     z-index: 50; /* Garantir que fique acima do preview-actions */
   }
-
 
   .panel-editor.full-width {
     width: 100% !important;
@@ -155,44 +156,54 @@
    MODAL COMPONENT (Aura Technical - Floating Control Panel)
    ========================================== */
 @layer components {
-  ui-modal, 
+  ui-modal,
   :host(ui-modal) {
     /* Estrutura Geral e Comportamento */
     --modal-z: 10000; /* Sempre acima da interface principal */
     --modal-backdrop: rgba(0, 0, 0, 0.75); /* Escurece o fundo e a folha A4 */
     --modal-backdrop-blur: 8px; /* Opcional: blur no fundo se o shadow DOM aceitar */
-    
+
     /* Painel do Modal (Mundo do Estúdio) */
     --modal-bg: var(--color-studio-elevated); /* Fundo elevado */
     --modal-border: var(--color-studio-border); /* Borda técnica */
     --modal-radius: 12px; /* Pouco mais suave que botões, mas ainda estruturado */
     --modal-padding: 24px;
-    
+
     /* Sombra pesada de sobreposição */
-    --modal-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--color-studio-border);
-    
+    --modal-shadow:
+      0 40px 80px -20px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--color-studio-border);
+
     /* Tipografia e Variantes */
     --modal-font: var(--font-sans);
-    --modal-accent-fg: #FFFFFF;
-    
+    --modal-accent-fg: #ffffff;
+
     /* As variáveis de accent automáticas do componente devem casar com nossos Neons */
     --modal-accent-default: var(--color-studio-border);
     --modal-accent-info: var(--color-accent-primary);
     --modal-accent-success: var(--color-accent-cyan);
-    --modal-accent-warning: #F59E0B;
+    --modal-accent-warning: #f59e0b;
     --modal-accent-danger: var(--color-accent-danger);
-    
+
     /* Animação Física e Responsiva (Snappy) */
     --modal-duration: 250ms;
-    --modal-easing: cubic-bezier(0.16, 1, 0.3, 1); /* Curva rápida e fluida (Apple style) */
+    --modal-easing: cubic-bezier(
+      0.16,
+      1,
+      0.3,
+      1
+    ); /* Curva rápida e fluida (Apple style) */
   }
 
   /* Refinamentos finos usando as partes do Shadow DOM */
-  
+
   ui-modal::part(panel) {
     /* Borda de reflexo (Glass Effect) na parte superior da janela */
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.02) 0%, transparent 100%);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 100%
+    );
   }
 
   ui-modal::part(header) {
@@ -200,7 +211,7 @@
     border-bottom: 1px solid var(--color-studio-border);
     padding-bottom: 16px;
     margin-bottom: 24px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 1.125rem;
@@ -212,7 +223,7 @@
     color: var(--color-studio-muted);
     font-size: 0.875rem;
     line-height: 1.6;
-    
+
     /* Permite rolagem customizada Aura Technical dentro do modal caso fique muito longo */
     scrollbar-width: thin;
     scrollbar-color: var(--color-studio-border) transparent;
@@ -249,7 +260,7 @@
   }
 
   ui-modal::part(close-btn):hover {
-    color: #FFFFFF;
+    color: #ffffff;
     background-color: var(--color-studio-border);
     transform: rotate(90deg); /* Animação técnica mecânica no hover */
   }
@@ -259,48 +270,56 @@
    CONFIRM DIALOG (Aura Technical - System Command Box)
    ========================================== */
 @layer components {
-  ui-confirm, 
+  ui-confirm,
   :host(ui-confirm) {
     /* Estrutura Geral e Comportamento */
     --uc-z-index: 9999;
-    --uc-backdrop-color: rgba(0, 0, 0, 0.75); /* Fundo bem escuro para isolar a atenção */
+    --uc-backdrop-color: rgba(
+      0,
+      0,
+      0,
+      0.75
+    ); /* Fundo bem escuro para isolar a atenção */
     --uc-backdrop-blur: 4px; /* Desfoque técnico sutil */
-    
+
     /* Painel do Modal (Mundo do Estúdio) */
     --uc-panel-bg: var(--color-studio-base);
     --uc-panel-border: var(--color-studio-border);
     --uc-panel-radius: 8px; /* Cantos consistentes com os inputs/botões */
-    --uc-panel-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--color-studio-border);
+    --uc-panel-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--color-studio-border);
     --uc-panel-max-width: 400px;
-    
+
     /* Tipografia e Cores de Texto */
     --uc-font-family: var(--font-sans);
-    --uc-color-title: #FFFFFF;
+    --uc-color-title: #ffffff;
     --uc-color-message: var(--color-studio-muted);
-    
+
     /* Botões */
     --uc-btn-radius: 6px;
     --uc-btn-cancel-bg: transparent;
     --uc-btn-cancel-color: var(--color-studio-muted);
     --uc-btn-cancel-border: var(--color-studio-border);
-    
+
     /* Cores das Variantes de Ação Mapeadas para os Neons do Sistema */
     --uc-color-danger: var(--color-accent-danger);
-    --uc-color-warning: #F59E0B;
+    --uc-color-warning: #f59e0b;
     --uc-color-info: var(--color-accent-primary);
-    
+
     --uc-transition-duration: 200ms; /* Animação responsiva */
   }
 
   /* Refinamentos finos usando as partes (Shadow DOM) */
-  
+
   ui-confirm::part(panel) {
     /* Adiciona um brilho sutil na borda superior, simulando reflexo em um hardware/janela */
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   ui-confirm::part(title) {
-    font-family: var(--font-mono); /* Títulos de Modais em Mono (estilo terminal de comando) */
+    font-family: var(
+      --font-mono
+    ); /* Títulos de Modais em Mono (estilo terminal de comando) */
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -318,7 +337,7 @@
 
   ui-confirm::part(btn-cancel):hover {
     background-color: var(--color-studio-elevated);
-    color: #FFFFFF;
+    color: #ffffff;
     border-color: var(--color-studio-muted);
   }
 
@@ -339,7 +358,7 @@
    TOAST MANAGER (Aura Technical - Light System Label)
    ========================================== */
 @layer components {
-  ui-toast-manager, 
+  ui-toast-manager,
   :host(ui-toast-manager) {
     /* Estrutura e Tipografia */
     --toast-gap: 12px;
@@ -349,9 +368,10 @@
     --toast-font-family: var(--font-sans);
     --toast-font-size: 0.875rem;
     --toast-padding: 16px;
-    
+
     /* Sombra técnica clara: Emula um cartão físico flutuando sobre a mesa */
-    --toast-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    --toast-shadow:
+      0 12px 32px -8px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
     --toast-z-index: 9999;
     --toast-duration-ms: 200ms;
 
@@ -374,7 +394,7 @@
 
     --toast-warning-bg: var(--color-paper-sheet);
     --toast-warning-color: var(--color-paper-text);
-    --toast-warning-border: #F59E0B;
+    --toast-warning-border: #f59e0b;
 
     /* Fundo da barra de progresso em cinza claro */
     --toast-progress-bg: var(--color-studio-muted);
