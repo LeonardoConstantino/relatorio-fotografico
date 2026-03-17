@@ -1,0 +1,282 @@
+/* ==========================================
+    MARKDOWN PARSER (Aura Technical - Print/Paper Style)
+    VARIÁVEIS CSS BASEADAS NO AURA
+  =========================================== */
+.md-container {
+  /* Cores - Papel (Sempre Light) */
+  --md-bg: transparent;
+  --md-text: var(--color-paper-text);
+  --md-heading: var(--color-paper-text);
+  --md-muted: #52525b; /* Zinc 600 */
+  --md-border: #e4e4e7; /* Zinc 200 */
+  --md-border-dark: #d4d4d8; /* Zinc 300 */
+
+  /* Links - Acentos da Marca */
+  --md-link: var(--color-accent-primary);
+  --md-link-hover: var(--color-accent-hover);
+  --md-link-visited: var(--color-accent-primary);
+
+  /* Código - Estilo Manual Técnico */
+  --md-code-bg: #f4f4f5; /* Zinc 100 */
+  --md-code-text: var(--color-paper-text);
+  --md-inline-code-bg: rgba(0, 0, 0, 0.05);
+  --md-inline-code-text: var(--color-accent-danger);
+
+  /* Blockquote - Laudos e Citações */
+  --md-quote-border: var(--color-accent-primary);
+  --md-quote-bg: rgba(0, 0, 0, 0.02);
+
+  /* Sombras - Removidas para impressão limpa */
+  --md-shadow: none;
+
+  /* Espaçamentos */
+  --md-space-xs: 4px;
+  --md-space-sm: 8px;
+  --md-space-md: 16px;
+  --md-space-lg: 24px;
+
+  /* Tipografia Aura Technical */
+  --md-font-family: var(--font-sans);
+  --md-font-mono: var(--font-mono);
+  --md-font-size: 0.875rem; /* 14px - Ideal para leitura em A4 */
+  --md-line-height: 1.6;
+}
+
+/* ===========================
+     CONTAINER PRINCIPAL
+     =========================== */
+.md-container {
+  width: 100%;
+  font-family: var(--md-font-family);
+  font-size: var(--md-font-size);
+  line-height: var(--md-line-height);
+  color: var(--md-text);
+  background-color: var(--md-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================
+     HEADERS
+     =========================== */
+.md-container .md-h1,
+.md-container .md-h2,
+.md-container .md-h3,
+.md-container .md-h4,
+.md-container .md-h5,
+.md-container .md-h6 {
+  margin: var(--md-space-lg) 0 var(--md-space-sm);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--md-heading);
+  letter-spacing: -0.02em;
+}
+
+.md-container .md-h1 {
+  font-size: 1.4em; /* Reduzido de 1.75em (Fica ~19.6px) */
+  border-bottom: 2px solid var(--md-border);
+  padding-bottom: 0.25em;
+}
+
+.md-container .md-h2 {
+  font-size: 1.25em; /* Reduzido de 1.5em (Fica ~17.5px) */
+  border-bottom: 1px solid var(--md-border);
+  padding-bottom: 0.25em;
+}
+
+.md-container .md-h3 {
+  font-size: 1.1em;
+} /* Reduzido de 1.25em */
+.md-container .md-h4 {
+  font-size: 1em;
+} /* Mantém o tamanho do corpo (14px), mas em negrito */
+.md-container .md-h5 {
+  font-size: 0.9em;
+}
+.md-container .md-h6 {
+  font-size: 0.85em;
+  color: var(--md-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===========================
+     TEXTO
+     =========================== */
+.md-container .md-paragraph {
+  margin: 0 0 var(--md-space-md);
+}
+.md-container .md-bold {
+  font-weight: 700;
+}
+.md-container .md-italic {
+  font-style: italic;
+}
+.md-container .md-bold-italic {
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ===========================
+     LINKS
+     =========================== */
+.md-container .md-link {
+  color: var(--md-link);
+  text-decoration: none;
+  font-weight: 500;
+}
+.md-container .md-link:hover {
+  text-decoration: underline;
+}
+.md-container .md-link:visited {
+  color: var(--md-link-visited);
+}
+
+/* ===========================
+     IMAGENS
+     =========================== */
+.md-container .md-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--md-space-md) auto;
+  border-radius: 4px; /* Canto suave, sem sombra */
+  border: 1px solid var(--md-border);
+  page-break-inside: avoid; /* Evita cortar a imagem na troca de página do PDF */
+}
+
+/* ===========================
+     LISTAS
+     =========================== */
+.md-container .md-list {
+  margin: 0 0 var(--md-space-md);
+  padding-left: 1.5em;
+}
+.md-container .md-list-item {
+  margin-bottom: var(--md-space-xs);
+}
+.md-container .md-list .md-list {
+  margin: var(--md-space-xs) 0;
+}
+
+/* ===========================
+     CÓDIGO (MANUAL TÉCNICO)
+     =========================== */
+.md-container .md-inline-code {
+  padding: 0.15em 0.3em;
+  font-size: 0.85em;
+  font-family: var(--md-font-mono);
+  background-color: var(--md-inline-code-bg);
+  color: var(--md-inline-code-text);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.md-container .md-code-block {
+  padding: var(--md-space-md);
+  margin-bottom: var(--md-space-md);
+  font-size: 0.85em;
+  line-height: 1.45;
+  background-color: var(--md-code-bg);
+  border: 1px solid var(--md-border);
+  border-radius: 6px;
+  overflow-x: auto;
+  page-break-inside: avoid; /* Mantém o bloco de código inteiro na impressão */
+}
+
+.md-container .md-code-block code {
+  font-family: var(--md-font-mono);
+  color: var(--md-code-text);
+  display: block;
+}
+
+/* ===========================
+     BLOCKQUOTE (LAUDOS)
+     =========================== */
+.md-container .md-blockquote {
+  padding: 0.5em 1em;
+  margin: var(--md-space-md) 0;
+  color: var(--md-muted);
+  border-left: 4px solid var(--md-quote-border);
+  background-color: var(--md-quote-bg);
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+}
+.md-container .md-blockquote p {
+  margin: 0;
+}
+
+/* ===========================
+     LINHA HORIZONTAL
+     =========================== */
+.md-container .md-hr {
+  height: 1px; /* Mais fino e elegante para impressão */
+  margin: var(--md-space-lg) 0;
+  background-color: var(--md-border);
+  border: 0;
+}
+
+/* ===========================
+     TABELAS
+     =========================== */
+.md-container table {
+  width: 100%;
+  margin: var(--md-space-lg) 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.875em;
+  border: 1px solid var(--md-border);
+  border-radius: 6px;
+  background-color: var(--md-bg);
+  page-break-inside: avoid; /* Impede a tabela de quebrar na metade no PDF */
+}
+
+.md-container thead {
+  background-color: var(--md-code-bg); /* Fundo cinza claro */
+  border-bottom: 2px solid var(--md-border-dark);
+}
+
+.md-container thead tr th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--md-heading);
+  border-right: 1px solid var(--md-border);
+}
+.md-container thead tr th:last-child {
+  border-right: none;
+}
+
+.md-container tbody tr {
+  border-bottom: 1px solid var(--md-border);
+}
+.md-container tbody tr:last-child {
+  border-bottom: none;
+}
+
+.md-container tbody tr td {
+  padding: 0.75rem 1rem;
+  color: var(--md-text);
+  border-right: 1px solid var(--md-border);
+  vertical-align: top;
+}
+.md-container tbody tr td:last-child {
+  border-right: none;
+}
+
+/* ===========================
+     PRINT SPECIFIC
+     =========================== */
+@media print {
+  .md-container {
+    padding: 0;
+  }
+  .md-container .md-link {
+    text-decoration: underline;
+  }
+  .md-container thead {
+    /* Garante que o fundo cinza da tabela imprima se o usuário permitir backgrounds no PDF */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
