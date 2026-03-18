@@ -2,6 +2,7 @@ import './styles/markdown.css'
 import './styles/main.css';
 import { persistenceService } from './services/PersistenceService';
 import { logger } from './libs/Logger';
+import { ToastManager } from './components/ui/toast';
 
 // Import Layout & UI Components
 import './components/ui/AppButton';
@@ -24,3 +25,5 @@ function render() {
 }
 
 init();
+
+ToastManager.show({message: 'Bem-vindo ao Aura Technical v2.0!', type: 'info', duration: 5000});

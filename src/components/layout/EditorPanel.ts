@@ -143,7 +143,7 @@ export class EditorPanel extends HTMLElement {
       </div>
 
       <!-- Modal: Editor de Template -->
-      <ui-modal id="modal-template" size="md">
+      <ui-modal id="modal-template" size="md" animation="scale">
         <div slot="header">
           <h1>Configurar Início Rápido</h1>
         </div>

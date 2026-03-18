@@ -35,6 +35,8 @@ export interface ImagesData extends BaseSectionData {
   images: Array<{
     src: string; // Base64 ou URL
     caption: string;
+    location?: string;
+    date?: string;
   }>;
 }
 

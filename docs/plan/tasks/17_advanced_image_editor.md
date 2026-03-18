@@ -15,5 +15,5 @@ Transformar o modal de edição de imagem em uma ferramenta completa de tratamen
     *   Opção de "Queimar" os metadados no canto inferior da imagem (Data/Hora e Trace ID) para auditoria.
 
 ## Critérios de Aceite
-- [ ] Foto tirada de lado pode ser corrigida no modal.
-- [ ] Metadados aparecem de forma legível na imagem ou logo abaixo dela no PDF.
+- [x] Foto tirada de lado pode ser corrigida no modal.
+- [x] Metadados aparecem de forma legível na imagem ou logo abaixo dela no PDF.

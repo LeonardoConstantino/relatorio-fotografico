@@ -215,7 +215,7 @@ Configure:
     scale: number = 1
   ): string {
     const reportRef = config.reportNumber
-      ? `REF: ${escapeHTML(config.reportNumber)}`
+      ? `REF: ${escapeHTML(config.reportNumber)} • ${traceId}`
       : `TRC: ${traceId}`;
 
     return `
@@ -252,7 +252,7 @@ Configure:
         <footer class="mt-20 flex justify-between items-end border-t border-paper-desk pt-4 absolute bottom-[20mm] left-[20mm] right-[20mm]">
            <div class="flex flex-col">
              <p class="text-[8px] font-mono text-paper-text/30 italic uppercase tracking-wider">Aura Tech Evidence Log | Authenticity Verified</p>
-             <p class="text-[7px] font-mono text-paper-text/20 uppercase">${reportRef} • ${traceId}</p>
+             <p class="text-[7px] font-mono text-paper-text/20 uppercase">${reportRef}</p>
            </div>
            <p class="text-[8px] font-mono text-paper-text/30 uppercase tracking-widest text-right whitespace-nowrap">Page ${page} / ${total}</p>
         </footer>
