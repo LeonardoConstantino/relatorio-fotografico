@@ -324,6 +324,35 @@
   }
 }
 
+@layer components {
+  /* Fundo de Área de Edição (Estilo CAD / Figma) */
+  .canvas-workspace {
+    background-color: var(--color-studio-base);
+    background-image: radial-gradient(
+      var(--color-studio-border) 1px,
+      transparent 0
+    );
+    background-size: 16px 16px;
+    box-shadow: inset 0 2px 15px rgba(0, 0, 0, 0.5); /* Sombra interna para dar profundidade */
+  }
+
+  /* Botão de Ferramenta (Quadrado, perfeito para ícones/emojis) */
+  .btn-tool {
+    @apply w-8 h-8 flex items-center justify-center rounded text-studio-muted text-sm transition-all select-none cursor-pointer;
+  }
+
+  .btn-tool:hover {
+    @apply bg-studio-border text-white;
+  }
+
+  /* Estado Ativo (Ferramenta Selecionada) */
+  .btn-tool[data-active='true'],
+  .btn-tool.active {
+    @apply bg-studio-border text-accent-cyan shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] ring-1 ring-black/20;
+    /* Usa o Cyan técnico para indicar "Ferramenta em uso" */
+  }
+}
+
 /* ==========================================
    CONFIRM DIALOG (Aura Technical - System Command Box)
    ========================================== */
