@@ -153,6 +153,64 @@
 }
 
 /* ==========================================
+   DATE INPUT (Aura Technical)
+   ========================================== */
+@layer components {
+  /* Alvo específico para inputs de data no estúdio */
+  input[type='date'].input-technical,
+  input[type='date'] {
+    /* 1. OBRIGA o navegador a usar a UI escura nativa para o popup e para o ícone */
+    color-scheme: dark;
+
+    /* 2. Visual de terminal para números (Fica incrível com datas!) */
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Personalizando os divisores (as barras / ou traços -) */
+  input[type='date']::-webkit-datetime-edit-text {
+    color: var(--color-studio-muted);
+    padding: 0 0.2em;
+  }
+
+  /* Personalizando os blocos de Dia, Mês e Ano */
+  input[type='date']::-webkit-datetime-edit-month-field,
+  input[type='date']::-webkit-datetime-edit-day-field,
+  input[type='date']::-webkit-datetime-edit-year-field {
+    color: #ffffff;
+    background: transparent;
+    border-radius: 2px;
+    padding: 0 0.1em;
+    transition: background-color 0.2s ease;
+  }
+
+  /* Quando o usuário clica/foca no "Dia" ou "Mês" para digitar */
+  input[type='date']::-webkit-datetime-edit-month-field:focus,
+  input[type='date']::-webkit-datetime-edit-day-field:focus,
+  input[type='date']::-webkit-datetime-edit-year-field:focus {
+    background-color: var(--color-accent-primary);
+    color: #ffffff;
+    outline: none;
+  }
+
+  /* Estilizando o Ícone do Calendário */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+    /* Se você quiser aumentar o ícone levemente: */
+    transform: scale(1.2);
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    /* Efeito mecânico ao passar o mouse */
+    transform: scale(1.4) rotate(-5deg);
+  }
+}
+
+/* ==========================================
    MODAL COMPONENT (Aura Technical - Floating Control Panel)
    ========================================== */
 @layer components {
