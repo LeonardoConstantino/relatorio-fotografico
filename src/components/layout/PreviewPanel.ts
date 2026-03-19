@@ -6,16 +6,19 @@ import { escapeHTML } from '../../utils/sanitize';
 
 export class PreviewPanel extends HTMLElement {
   private overflowDetected = false;
-  private parser: MarkdownParser
+  private parser: MarkdownParser;
 
   constructor() {
-    super()
-    this.parser = new MarkdownParser(logger)
+    super();
+    this.parser = new MarkdownParser(logger);
   }
 
   connectedCallback() {
     this.render();
     EventBus.on(STORE_EVENTS.REPORT_UPDATED, () => this.render());
+    EventBus.on(STORE_EVENTS.VALIDATION_UPDATED, (warnings: any[]) =>
+      this.updateValidationAlert(warnings),
+    );
   }
 
   private checkOverflow() {
@@ -35,7 +38,7 @@ export class PreviewPanel extends HTMLElement {
           hasOverflow = true;
           overflowAlert?.classList.remove('hidden');
 
-          logger.info('PreviewPanel', 'Over flow detectado')
+          logger.info('PreviewPanel', 'Over flow detectado');
         } else {
           page.classList.remove(
             'ring-4',
@@ -53,6 +56,98 @@ export class PreviewPanel extends HTMLElement {
     }
   }
 
+  /**
+   * Atualiza a barra de alertas de validação
+   */
+  private updateValidationAlert(
+    warnings: Array<{ message: string; sectionId?: string; field?: string }>,
+  ) {
+    const alert = this.querySelector('#validation-alert');
+    if (!alert) return;
+
+    if (warnings.length === 0) {
+      alert.classList.add('hidden');
+      return;
+    }
+
+    logger.debug('PreviewPanel', 'Array de alertas: ', warnings)
+
+    const count = warnings.length;
+    const plural = count > 1 ? 's' : '';
+
+    alert.classList.remove('hidden');
+    alert.innerHTML = `
+    <div class="flex items-center justify-between gap-4">
+      <span class="flex items-center gap-2">
+        <span class="text-amber-500">⚠️</span>
+        <span>${count} pendência${plural} detectada${plural}</span>
+      </span>
+      <button 
+        id="btn-show-validation-details" 
+        class="underline hover:text-amber-700 transition-colors"
+      >
+        Ver detalhes
+      </button>
+    </div>
+  `;
+
+    // Listener para abrir modal
+    this.querySelector('#btn-show-validation-details')?.addEventListener(
+      'click',
+      () => {
+        this.showValidationModal(warnings);
+      },
+    );
+  }
+
+  /**
+   * Exibe modal com detalhes das validações
+   */
+  private showValidationModal(
+    warnings: Array<{ message: string; sectionId?: string; field?: string }>,
+  ) {
+    const modal = document.createElement('ui-modal');
+    modal.id = 'modal-validation-details';
+    modal.setAttribute('size', 'md');
+    modal.setAttribute('animation', 'scale');
+
+    modal.innerHTML = `
+    <div slot="header">
+      <h1>📋 Pendências de Conformidade</h1>
+    </div>
+    <div class="space-y-4">
+      <p class="text-xs text-studio-muted leading-relaxed">
+        Os itens abaixo não impedem a geração do PDF, mas podem comprometer a qualidade profissional do relatório.
+      </p>
+      <ul class="space-y-2 border-t border-studio-border pt-4 max-h-[60vh] overflow-y-auto">
+        ${warnings
+          .map(
+            (w) => `
+          <li class="flex items-start gap-3 text-sm text-studio-muted">
+            <span class="text-amber-500 mt-0.5">▸</span>
+            <span class="flex-1">${escapeHTML(w.message)}</span>
+          </li>
+        `,
+          )
+          .join('')}
+      </ul>
+    </div>
+    <div slot="footer" class="flex justify-end">
+      <button class="btn btn-primary" onclick="this.closest('ui-modal').close()">
+        Entendido
+      </button>
+    </div>
+  `;
+
+    document.body.appendChild(modal);
+    (modal as any).open();
+
+    // Remove do DOM ao fechar
+    modal.addEventListener('close', () => {
+      modal.remove();
+    });
+  }
+
   render() {
     const { config, sections, meta, ui } = store.state;
     this.className = 'panel-preview';
@@ -64,7 +159,6 @@ export class PreviewPanel extends HTMLElement {
         config.primaryColor,
       );
     }
-    
 
     if (sections.length === 0) {
       this.innerHTML = this.renderPage(
@@ -79,7 +173,7 @@ export class PreviewPanel extends HTMLElement {
         1,
         true,
         '',
-        ui.previewScale
+        ui.previewScale,
       );
       return;
     }
@@ -191,16 +285,27 @@ Configure:
         <div id="overflow-alert" class="hidden animate-pulse bg-accent-danger/10 text-accent-danger border border-accent-danger/20 p-2 rounded text-[10px] font-bold uppercase tracking-widest text-center">
           ⚠️ Conteúdo excedeu o limite. Use "Quebra de Página".
         </div>
+        <div id="validation-alert" class="hidden bg-amber-500/10 text-amber-600 animate-pulse border border-amber-500/20 p-2 rounded text-[10px] font-bold uppercase tracking-widest">
+          <!-- Conteúdo gerado dinamicamente -->
+        </div>
       </div>
       <div class="sheets-wrapper flex flex-col items-center">
         ${currentPages.map((html, i) => this.renderPage(config, html, i + 1, currentPages.length, i === 0, traceId, ui.previewScale)).join('')}
       </div>
     `;
 
-    this.querySelector('#btn-print-action')?.addEventListener('click', () => window.print());
-    this.querySelector('#zoom-in')?.addEventListener('click', () => store.setPreviewScale(ui.previewScale + 0.1));
-    this.querySelector('#zoom-out')?.addEventListener('click', () => store.setPreviewScale(ui.previewScale - 0.1));
-    this.querySelector('#zoom-reset')?.addEventListener('click', () => store.setPreviewScale(1.0));
+    this.querySelector('#btn-print-action')?.addEventListener('click', () =>
+      window.print(),
+    );
+    this.querySelector('#zoom-in')?.addEventListener('click', () =>
+      store.setPreviewScale(ui.previewScale + 0.1),
+    );
+    this.querySelector('#zoom-out')?.addEventListener('click', () =>
+      store.setPreviewScale(ui.previewScale - 0.1),
+    );
+    this.querySelector('#zoom-reset')?.addEventListener('click', () =>
+      store.setPreviewScale(1.0),
+    );
 
     setTimeout(() => this.checkOverflow(), 150);
   }
@@ -212,7 +317,7 @@ Configure:
     total: number,
     isFirstPage: boolean,
     traceId: string,
-    scale: number = 1
+    scale: number = 1,
   ): string {
     const reportRef = config.reportNumber
       ? `REF: ${escapeHTML(config.reportNumber)} • ${traceId}`

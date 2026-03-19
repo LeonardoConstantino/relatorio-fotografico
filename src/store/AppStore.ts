@@ -14,6 +14,7 @@ export const STORE_EVENTS = {
   SECTION_REMOVED: 'store:section_removed',
   SECTIONS_REORDERED: 'store:sections_reordered',
   LAYOUT_WARNING: 'store:layout_warning',
+  VALIDATION_UPDATED: 'store:validation_updated',
   PERSISTENCE_SAVING: 'store:persistence_saving',
   PERSISTENCE_SAVED: 'store:persistence_saved',
 };
@@ -228,9 +229,107 @@ class AppStore {
     };
   }
 
+  /**
+ * Executa uma validação informativa do relatório
+ * Retorna array de objetos com warnings e localização dos campos
+ */
+getValidationWarnings(): Array<{ message: string; sectionId?: string; field?: string }> {
+  const warnings: Array<{ message: string; sectionId?: string; field?: string }> = [];
+  const { config, sections } = this._report;
+
+  // Validação de Identidade
+  if (!config.company?.trim()) {
+    warnings.push({ 
+      message: 'Identidade: Nome da Empresa ausente.',
+      field: 'config.company' 
+    });
+  }
+  
+  if (!config.reportNumber?.trim()) {
+    warnings.push({ 
+      message: 'Identidade: Número do Relatório ausente.',
+      field: 'config.reportNumber' 
+    });
+  }
+
+  if (!config.logo?.trim()) {
+    warnings.push({ 
+      message: 'Identidade: Logo não adicionada.',
+      field: 'config.logo' 
+    });
+  }
+
+  // Validação de Seções
+  sections.forEach((s) => {
+    const data = s.data as any;
+    const label = this.getSectionLabel(s.type);
+
+    if (s.type === 'equipment') {
+      if (!data.patrimony?.trim()) {
+        warnings.push({
+          message: `${label}: Patrimônio não informado.`,
+          sectionId: s.id,
+          field: 'patrimony',
+        });
+      }
+      if (!data.description?.trim()) {
+        warnings.push({
+          message: `${label}: Descrição do equipamento vazia.`,
+          sectionId: s.id,
+          field: 'description',
+        });
+      }
+    }
+
+    if (s.type === 'text' && !data.content?.trim()) {
+      warnings.push({
+        message: `${label}: Conteúdo de texto vazio.`,
+        sectionId: s.id,
+        field: 'content',
+      });
+    }
+
+    if (s.type === 'bullets') {
+      const hasValidItems = data.items?.some((item: string) => item?.trim());
+      if (!hasValidItems) {
+        warnings.push({
+          message: `${label}: Nenhum item preenchido.`,
+          sectionId: s.id,
+          field: 'items',
+        });
+      }
+    }
+
+    if (s.type === 'images' && (!data.images || data.images.length === 0)) {
+      warnings.push({
+        message: `${label}: Nenhuma foto adicionada.`,
+        sectionId: s.id,
+        field: 'images',
+      });
+    }
+  });
+
+  return warnings;
+}
+
+  /**
+ * Retorna um rótulo amigável para o tipo de seção
+ */
+private getSectionLabel(type: SectionType): string {
+  const labels: Record<SectionType, string> = {
+    equipment: '📦 Equipamento',
+    text: '📝 Texto',
+    bullets: '📋 Lista',
+    images: '📷 Galeria',
+    pagebreak: '⏸️ Quebra de Página',
+  };
+  return labels[type] || '❓ Desconhecido';
+}
+
   private notify(): void {
     this._report.meta.lastModified = Date.now();
     EventBus.emit(STORE_EVENTS.REPORT_UPDATED, this.state);
+    EventBus.emit(STORE_EVENTS.VALIDATION_UPDATED, this.getValidationWarnings());
   }
 
   private getDefaultDataForType(type: SectionType): SectionData {

@@ -216,7 +216,7 @@ export class EditorPanel extends HTMLElement {
     // Atualiza CSS Variable da cor em tempo real
     if (data.config.primaryColor) {
       document.documentElement.style.setProperty(
-        '--color-accent-primary',
+        '--report-primary-color',
         data.config.primaryColor,
       );
     }

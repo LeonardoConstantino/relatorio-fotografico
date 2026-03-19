@@ -12,5 +12,5 @@ Garantir que o relatório gerado esteja completo e profissional, alertando o usu
     *   Avisar no botão de Gerar PDF: "Existem 3 pendências de preenchimento".
 
 ## Critérios de Aceite
-- [ ] O usuário consegue identificar visualmente quais módulos estão incompletos.
-- [ ] A barra de status (Task 11) exibe o total de alertas de conformidade.
+- [ ] O usuário consegue identificar visualmente quais módulos estão incompletos. // TODO implementação futura
+- [x] A barra de status (Task 11) exibe o total de alertas de conformidade.
