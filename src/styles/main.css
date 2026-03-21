@@ -153,6 +153,182 @@
 }
 
 /* ==========================================
+   AURA CORE (A Reevolução do Checkbox)
+   ========================================== */
+@layer components {
+  /* O Soquete (Housing) - Onde a energia repousa */
+  input[type='checkbox'] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Abandona a caixa. Círculos são energia. */
+    background: #050505; /* Mais escuro que o painel, é um buraco/soquete */
+    /* Sombra interna para dar profundidade de hardware esculpido e borda de luz sutil no topo */
+    box-shadow:
+      inset 0 4px 6px rgba(0, 0, 0, 0.8),
+      inset 0 1px 1px rgba(0, 0, 0, 0.9),
+      0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+
+  /* Efeito tátil de pressão (Hardware pesado) */
+  input[type='checkbox']:active {
+    transform: scale(0.85);
+  }
+
+  /* O Núcleo (Core) - O elemento que sofre metamorfose */
+  input[type='checkbox']::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3f3f46; /* Adormecido: Zinco frio */
+    /* Curva elástica extrema para o "pulo" da animação */
+    transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    z-index: 2;
+  }
+
+  /* O Campo de Contenção (Energy Field) - Escondido no estado OFF */
+  input[type='checkbox']::after {
+    content: '';
+    position: absolute;
+    inset: -4px; /* Vaza para fora do soquete */
+    border-radius: 50%;
+    /* Borda tracejada técnica que vai girar */
+    border: 1px dashed var(--color-accent-primary);
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+    transition: all 0.4s ease-out;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* =========================================
+     IGNIÇÃO! (Estado :checked)
+     ========================================= */
+
+  /* 1. O Soquete Acende */
+  input[type='checkbox']:checked {
+    /* O buraco enche de energia residual azulada */
+    background: radial-gradient(
+      circle at center,
+      rgba(6, 182, 212, 0.2) 0%,
+      #050505 70%
+    );
+    box-shadow:
+      inset 0 0 10px rgba(6, 182, 212, 0.4),
+      0 0 15px rgba(79, 70, 229, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* 2. Metamorfose do Núcleo (De ponto para Estrela de Plasma) */
+  input[type='checkbox']:checked::before {
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    /* A Mágica: Esculpe uma estrela de 4 pontas afiada (Cyber-Sigil) */
+    clip-path: polygon(
+      50% 0%,
+      62% 38%,
+      100% 50%,
+      62% 62%,
+      50% 100%,
+      38% 62%,
+      0% 50%,
+      38% 38%
+    );
+    border-radius: 0; /* Quebra a forma redonda */
+    /* Gira durante a expansão para um efeito de "trava quântica" se encaixando */
+    transform: rotate(90deg) scale(1.1);
+    /* Sombras dropadas aplicam o neon à forma esculpida (Cyan + Primary) */
+    filter: drop-shadow(0 0 2px var(--color-accent-cyan))
+      drop-shadow(0 0 6px var(--color-accent-primary));
+  }
+
+  /* 3. O Campo de Contenção Inicia Rotação Infinita */
+  input[type='checkbox']:checked::after {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+    /* Inicia a rotação contínua como um radar ou reator operando */
+    animation: core-spin 4s linear infinite forwards;
+    /* Um brilho extra no anel */
+    filter: drop-shadow(0 0 4px var(--color-accent-primary));
+  }
+
+  /* Keyframe para a Rotação do Campo de Contenção */
+  @keyframes core-spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+}
+
+/* ==========================================
+   ICON COMPONENT (Aura Technical - Crisp Vectors)
+   ========================================== */
+@layer components {
+  ui-icon,
+  :host(ui-icon) {
+    /* Comportamento Inline-Flex para alinhar perfeitamente com o texto */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle; /* Impede que o ícone empurre a linha para cima */
+
+    /* Configurações Vetoriais Técnicas */
+    --icon-stroke-width: 1.5px; /* Traço fino e técnico (Estilo Lucide/Feather) */
+    --icon-color: currentColor; /* Herda a cor do texto/botão do Tailwind */
+
+    /* Tamanhos Base Mapeados (Semântica do Tailwind) */
+    --size-xs: 12px;
+    --size-sm: 16px;
+    --size-md: 20px;
+    --size-lg: 24px;
+    --size-xl: 32px;
+    --size-2xl: 48px;
+
+    /* O tamanho real é decidido pelo atributo 'size', fallback = 20px */
+    --icon-size: var(--size-md);
+
+    width: var(--icon-size);
+    height: var(--icon-size);
+    color: var(--icon-color);
+
+    /* Impede que eventos de clique parem no ícone, passando para o botão pai */
+    pointer-events: none;
+  }
+
+  /* Refinamento do SVG (Shadow DOM) */
+  ui-icon::part(svg) {
+    width: 100%;
+    height: 100%;
+    stroke-width: var(--icon-stroke-width);
+    stroke: currentColor;
+    fill: none; /* A maioria dos ícones técnicos são outline, não preenchidos */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Efeito Hover Apenas Quando Inserido em "Botões de Ferramenta" ou "Icon Buttons" */
+  button:hover > ui-icon::part(svg),
+  .btn-tool:hover > ui-icon::part(svg) {
+    /* Pequeno respiro/expansão vetorial para feedback tátil */
+    transform: scale(1.1);
+  }
+}
+
+/* ==========================================
    DATE INPUT (Aura Technical)
    ========================================== */
 @layer components {
