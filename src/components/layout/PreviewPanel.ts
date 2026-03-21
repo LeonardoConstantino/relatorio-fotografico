@@ -70,7 +70,7 @@ export class PreviewPanel extends HTMLElement {
       return;
     }
 
-    logger.debug('PreviewPanel', 'Array de alertas: ', warnings)
+    logger.debug('PreviewPanel', 'Array de alertas: ', warnings);
 
     const count = warnings.length;
     const plural = count > 1 ? 's' : '';

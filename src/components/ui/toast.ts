@@ -85,7 +85,7 @@ export interface IToastManager {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ui-toast':         UiToast;
+    'ui-toast': UiToast;
     'ui-toast-manager': UiToastManager;
   }
 
@@ -101,9 +101,9 @@ const ANIM_DURATION_FALLBACK = 280 as const;
 
 /** Valores padrão dos atributos de `<ui-toast>`. */
 const DEFAULTS = {
-  type:     'info' as ToastType,
+  type: 'info' as ToastType,
   duration: 4000,
-  message:  '',
+  message: '',
 } as const;
 
 /** Ícones SVG por tipo. `aria-hidden="true"`: o anúncio é feito via role/live region. */
@@ -138,16 +138,16 @@ const ICONS: Record<ToastType, string> = {
  */
 const ARIA_ROLES: Record<ToastType, 'alert' | 'status'> = {
   success: 'status',
-  error:   'alert',
+  error: 'alert',
   warning: 'alert',
-  info:    'status',
+  info: 'status',
 };
 
 // ─── Template estático ────────────────────────────────────────────────────────
 // Criado UMA vez e clonado por instância — o browser parseia o CSS apenas uma vez.
 
 const TOAST_TEMPLATE: HTMLTemplateElement = document.createElement('template');
-TOAST_TEMPLATE.innerHTML = /* html */`
+TOAST_TEMPLATE.innerHTML = /* html */ `
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -296,7 +296,7 @@ TOAST_TEMPLATE.innerHTML = /* html */`
 function isToastType(value: string | null): value is ToastType {
   return (
     value === 'success' ||
-    value === 'error'   ||
+    value === 'error' ||
     value === 'warning' ||
     value === 'info'
   );
@@ -307,17 +307,21 @@ function isToastType(value: string | null): value is ToastType {
 export class UiToast extends HTMLElement {
   // Campos privados com tipos explícitos
   readonly #shadow: ShadowRoot;
-  #controller:   AbortController | null = null;
-  #timerId:      ReturnType<typeof setTimeout> | null = null;
+  #controller: AbortController | null = null;
+  #timerId: ReturnType<typeof setTimeout> | null = null;
   #progressAnim: Animation | null = null;
 
   // Referências cacheadas dos nós internos — querySelector chamado apenas 1× no constructor
-  readonly #root:   HTMLElement;
+  readonly #root: HTMLElement;
   readonly #iconEl: HTMLElement;
   readonly #bodyEl: HTMLElement;
-  readonly #barEl:  HTMLElement;
+  readonly #barEl: HTMLElement;
 
-  static readonly observedAttributes: readonly string[] = ['type', 'message', 'duration'];
+  static readonly observedAttributes: readonly string[] = [
+    'type',
+    'message',
+    'duration',
+  ];
 
   constructor() {
     super();
@@ -327,10 +331,17 @@ export class UiToast extends HTMLElement {
     this.#shadow.appendChild(TOAST_TEMPLATE.content.cloneNode(true));
 
     // Cache das referências — asserções non-null (!) seguras: o template garante existência
-    this.#root   = this.#shadow.querySelector<HTMLElement>('[part="toast-root"]')!;
-    this.#iconEl = this.#shadow.querySelector<HTMLElement>('[part="toast-icon"]')!;
-    this.#bodyEl = this.#shadow.querySelector<HTMLElement>('[part="toast-body"]')!;
-    this.#barEl  = this.#shadow.querySelector<HTMLElement>('[part="toast-bar"]')!;
+    this.#root = this.#shadow.querySelector<HTMLElement>(
+      '[part="toast-root"]',
+    )!;
+    this.#iconEl = this.#shadow.querySelector<HTMLElement>(
+      '[part="toast-icon"]',
+    )!;
+    this.#bodyEl = this.#shadow.querySelector<HTMLElement>(
+      '[part="toast-body"]',
+    )!;
+    this.#barEl =
+      this.#shadow.querySelector<HTMLElement>('[part="toast-bar"]')!;
   }
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
@@ -348,10 +359,18 @@ export class UiToast extends HTMLElement {
     // Listener do botão de fechar; removido automaticamente via AbortController
     this.#shadow
       .querySelector<HTMLButtonElement>('[part="toast-close"]')!
-      .addEventListener('click', () => { this.dismiss(); }, { signal });
+      .addEventListener(
+        'click',
+        () => {
+          this.dismiss();
+        },
+        { signal },
+      );
 
     // Anima entrada no próximo frame: garante que o browser pintou opacity:0 primeiro
-    requestAnimationFrame(() => { this.setAttribute('data-visible', ''); });
+    requestAnimationFrame(() => {
+      this.setAttribute('data-visible', '');
+    });
   }
 
   disconnectedCallback(): void {
@@ -403,7 +422,7 @@ export class UiToast extends HTMLElement {
 
     setTimeout((): void => {
       const event: ToastDismissedEvent = new CustomEvent('ui-toast:dismissed', {
-        bubbles:  true,
+        bubbles: true,
         composed: true,
         detail: { type: this.#resolvedType, message: this.#resolvedMessage },
       });
@@ -442,13 +461,16 @@ export class UiToast extends HTMLElement {
    */
   #syncType(rawType: string | null): void {
     const type: ToastType = isToastType(rawType) ? rawType : DEFAULTS.type;
-    const role             = ARIA_ROLES[type];
+    const role = ARIA_ROLES[type];
 
     // innerHTML seguro: conteúdo é controlado (constante ICONS), não input do usuário
     this.#iconEl.innerHTML = ICONS[type];
 
-    this.#root.setAttribute('role',      role);
-    this.#root.setAttribute('aria-live', role === 'alert' ? 'assertive' : 'polite');
+    this.#root.setAttribute('role', role);
+    this.#root.setAttribute(
+      'aria-live',
+      role === 'alert' ? 'assertive' : 'polite',
+    );
   }
 
   /**
@@ -482,7 +504,7 @@ export class UiToast extends HTMLElement {
       ] satisfies Keyframe[],
       {
         duration,
-        fill:   'forwards',
+        fill: 'forwards',
         easing: 'linear',
       } satisfies KeyframeAnimationOptions,
     );
@@ -504,7 +526,9 @@ export class UiToast extends HTMLElement {
     const duration = this.#resolvedDuration;
 
     if (duration > 0) {
-      this.#timerId = setTimeout((): void => { this.dismiss(); }, duration);
+      this.#timerId = setTimeout((): void => {
+        this.dismiss();
+      }, duration);
     }
   }
 }
@@ -526,7 +550,7 @@ export class UiToastManager extends HTMLElement {
   constructor() {
     super();
     this.#shadow = this.attachShadow({ mode: 'open' });
-    this.#shadow.innerHTML = /* html */`
+    this.#shadow.innerHTML = /* html */ `
       <style>
         :host {
           position: fixed;
@@ -554,8 +578,8 @@ export class UiToastManager extends HTMLElement {
    * @returns Referência ao elemento `<ui-toast>` criado.
    */
   show({
-    type     = DEFAULTS.type,
-    message  = DEFAULTS.message,
+    type = DEFAULTS.type,
+    message = DEFAULTS.message,
     duration = DEFAULTS.duration,
   }: ToastOptions): UiToast {
     // Aplica limite de pilha: descarta o mais antigo antes de adicionar o novo
@@ -565,8 +589,8 @@ export class UiToastManager extends HTMLElement {
     }
 
     const toast = document.createElement('ui-toast');
-    toast.setAttribute('type',     type);
-    toast.setAttribute('message',  message);
+    toast.setAttribute('type', type);
+    toast.setAttribute('message', message);
     toast.setAttribute('duration', String(duration));
     this.appendChild(toast);
     return toast;
@@ -574,7 +598,9 @@ export class UiToastManager extends HTMLElement {
 
   /** Dispensa todos os toasts visíveis com animação de saída. */
   clear(): void {
-    this.querySelectorAll<UiToast>('ui-toast').forEach((t) => { t.dismiss(); });
+    this.querySelectorAll<UiToast>('ui-toast').forEach((t) => {
+      t.dismiss();
+    });
   }
 }
 

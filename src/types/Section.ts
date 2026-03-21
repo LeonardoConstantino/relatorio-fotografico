@@ -64,7 +64,6 @@ export interface ReportTemplate {
   }>;
 }
 
-
 /**
  * Estrutura de uma seção no relatório
  */

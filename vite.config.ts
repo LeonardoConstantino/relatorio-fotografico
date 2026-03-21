@@ -9,6 +9,8 @@ export default defineConfig({
       registerType: 'prompt', // 'prompt' para usarmos nossa UI de notificação
       devOptions: {
         enabled: false, // Desativado em DEV para não salvar caches chatos
+          type: 'module',
+          suppressWarnings: true,
       },
       manifest: {
         name: 'Aura Technical | Relatórios',
@@ -20,18 +22,61 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'https://cdn-icons-png.flaticon.com/512/3342/3342137.png', // Icone temporário, pode trocar depois
-            sizes: '192x192',
-            type: 'image/png',
+            src: './src/assets/img/android-icon-36x36.png',
+            sizes: '36x36',
+            type: 'image\/png',
+            purpose: 'any',
           },
           {
-            src: 'https://cdn-icons-png.flaticon.com/512/3342/3342137.png',
-            sizes: '512x512',
+            src: './src/assets/img/android-icon-48x48.png',
+            sizes: '48x48',
+            type: 'image\/png',
+            purpose: 'any',
+          },
+          {
+            src: './src/assets/img/android-icon-72x72.png',
+            sizes: '72x72',
+            type: 'image\/png',
+            purpose: 'any',
+          },
+          {
+            src: './src/assets/img/android-icon-96x96.png',
+            sizes: '96x96',
+            type: 'image\/png',
+            purpose: 'any',
+          },
+          {
+            src: './src/assets/img/android-icon-144x144.png',
+            sizes: '144x144',
+            type: 'image\/png',
+            purpose: 'any',
+          },
+          {
+            src: './src/assets/img/android-icon-192x192.png',
+            sizes: '192x192',
+            type: 'image\/png',
+            purpose: 'maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: './src/assets/img/desktop-screenshot_1280x720.png',
+            sizes: '1280x720',
             type: 'image/png',
-            purpose: 'any maskable',
+            form_factor: 'wide',
+            label: 'Desktop view of Inventory Control',
+          },
+          {
+            src: './src/assets/img/mobile-screenshot_375x812.png',
+            sizes: '375x812',
+            type: 'image/png',
+            label: 'Mobile view of Inventory Control',
           },
         ],
       },
+
+      includeAssets: ['favicon.ico'],
+
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [

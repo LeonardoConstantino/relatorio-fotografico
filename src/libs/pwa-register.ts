@@ -112,7 +112,7 @@ class PWANotificationManager {
     this.createNotification(
       'update',
       'Sistema Atualizado',
-      'Uma nova versão do Aura Estúdio está disponível.',
+      'Uma nova versão do Aura Estúdio está disponível. Deseja atualizar?',
       [
         { text: 'Agora', action: onUpdate, primary: true },
         { text: 'Depois', action: () => {} },

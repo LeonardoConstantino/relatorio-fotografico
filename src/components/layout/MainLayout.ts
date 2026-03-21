@@ -34,7 +34,6 @@ export class MainLayout extends HTMLElement {
     `;
     this.updateLayout();
   }
-
 }
 
 customElements.define('main-layout', MainLayout);

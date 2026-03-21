@@ -518,27 +518,30 @@ export class EditorPanel extends HTMLElement {
       .join('');
   }
 
-  private getSectionLabel(type: SectionType): {label: string, iconName: string} {
-    const labels: Record<SectionType, {label: string, iconName: string}> = {
+  private getSectionLabel(type: SectionType): {
+    label: string;
+    iconName: string;
+  } {
+    const labels: Record<SectionType, { label: string; iconName: string }> = {
       equipment: {
         label: 'Equipamento',
-        iconName: 'package'
+        iconName: 'package',
       },
       text: {
         label: 'Texto Livre',
-        iconName: 'text'
+        iconName: 'text',
       },
       bullets: {
         label: 'Lista de Itens',
-        iconName: 'list'
+        iconName: 'list',
       },
       images: {
         label: 'Registro Fotográfico',
-        iconName: 'image'
+        iconName: 'image',
       },
       pagebreak: {
         label: 'Quebra de Página',
-        iconName: 'arrow-uturn-down'
+        iconName: 'arrow-uturn-down',
       },
     };
     return labels[type];

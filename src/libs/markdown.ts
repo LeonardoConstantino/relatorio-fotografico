@@ -173,7 +173,7 @@ class MarkdownParser {
 
     this.logger.info(
       'MarkdownParser',
-      'MarkdownParser inicializado com regras de conversão'
+      'MarkdownParser inicializado com regras de conversão',
     );
   }
 
@@ -185,15 +185,15 @@ class MarkdownParser {
    * @returns Texto com caracteres HTML escapados
    */
   private _escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
-}
+    const map: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
+  }
 
   /**
    * Agrupa linhas consecutivas de blockquote em um único bloco
@@ -214,7 +214,7 @@ class MarkdownParser {
           .replace(/<\/blockquote>\n?/g, '<br>')
           .replace(/<br>$/, ''); // Remove <br> final
         return `<blockquote class="md-blockquote">${content}</blockquote>\n`;
-      }
+      },
     );
   }
 
@@ -234,7 +234,7 @@ class MarkdownParser {
         // Remove atributo data-type antes de agrupar
         const cleanedItems = match.replace(/ data-type="unordered"/g, '');
         return `<ul class="md-list">\n${cleanedItems}</ul>\n`;
-      }
+      },
     );
 
     // Processa listas ordenadas
@@ -245,7 +245,7 @@ class MarkdownParser {
         // Remove atributo data-type antes de agrupar
         const cleanedItems = match.replace(/ data-type="ordered"/g, '');
         return `<ol class="md-list">\n${cleanedItems}</ol>\n`;
-      }
+      },
     );
 
     return html;
@@ -281,7 +281,7 @@ class MarkdownParser {
             const headCells = innerHtml
               .replace(
                 /<td class="md-table-cell">/g,
-                '<th class="md-table-header">'
+                '<th class="md-table-header">',
               )
               .replace(/<\/td>/g, '</th>');
             theadRows.push(`<tr class="md-table-row">${headCells}</tr>`);
@@ -297,7 +297,7 @@ class MarkdownParser {
           : '';
 
         return `<table class="md-table">\n${thead}\n${tbody}\n</table>\n`;
-      }
+      },
     );
   }
 
@@ -360,7 +360,7 @@ class MarkdownParser {
       if (typeof rule.replacement === 'function') {
         // Usa call() com arrow function para manter contexto e evitar bind em loop
         html = html.replace(rule.pattern, (...args) =>
-          (rule.replacement as ReplacementFunction).call(this, ...args)
+          (rule.replacement as ReplacementFunction).call(this, ...args),
         );
       } else {
         html = html.replace(rule.pattern, rule.replacement);
@@ -409,7 +409,7 @@ class MarkdownParser {
     // Proteção contra DoS por input muito grande
     if (markdown.length > this.MAX_INPUT_SIZE) {
       throw new RangeError(
-        `Input muito grande (limite: ${this.MAX_INPUT_SIZE / 1_000_000}MB)`
+        `Input muito grande (limite: ${this.MAX_INPUT_SIZE / 1_000_000}MB)`,
       );
     }
 
@@ -427,7 +427,7 @@ class MarkdownParser {
     // Executa pipeline: reduce aplica cada função ao resultado acumulado
     return pipeline.reduce(
       (html, transform) => transform(html),
-      markdown.trim()
+      markdown.trim(),
     );
   }
 
