@@ -291,7 +291,7 @@ export class ImageEditorModal extends HTMLElement {
       <ui-modal id="modal-evidence-editor" size="lg" animation="scale">
       <!-- Header Técnico (Mono) -->
       <h2 slot="header" class="text-white font-bold flex items-center gap-2 text-sm uppercase tracking-tight font-mono">
-        <span class="text-accent-primary">■</span> Estúdio de Evidências
+        <span class="text-accent-primary"><ui-icon name="edit" size="md"></ui-icon></span> Estúdio de Evidências
       </h2>
 
       <div class="flex flex-col gap-4">
@@ -301,14 +301,14 @@ export class ImageEditorModal extends HTMLElement {
           <!-- Bandeja de Ferramentas de Desenho -->
           <div class="flex items-center gap-1 bg-studio-elevated p-1 rounded-md border border-studio-border" id="tools-group">
             <!-- Substitua a lógica de classe pela atribuição de .active ou data-active="true" via JS -->
-            <button class="btn-tool ${this.currentTool === 'brush' ? 'active' : ''}" data-tool="brush" title="Pincel">🖌️</button>
-            <button class="btn-tool ${this.currentTool === 'arrow' ? 'active' : ''}" data-tool="arrow" title="Seta">↗</button>
-            <button class="btn-tool ${this.currentTool === 'circle' ? 'active' : ''}" data-tool="circle" title="Círculo">⭕</button>
+            <button class="btn-tool ${this.currentTool === 'brush' ? 'active' : ''}" data-tool="brush" title="Pincel"><ui-icon name="pencil" size="sm"></ui-icon></button>
+            <button class="btn-tool ${this.currentTool === 'arrow' ? 'active' : ''}" data-tool="arrow" title="Seta"><ui-icon name="arrow" size="sm"></ui-icon></button>
+            <button class="btn-tool ${this.currentTool === 'circle' ? 'active' : ''}" data-tool="circle" title="Círculo"><ui-icon name="circle" size="sm"></ui-icon></button>
             
             <div class="w-px h-5 bg-studio-border mx-1"></div> <!-- Divisor -->
             
-            <button class="btn-tool" id="action-rotate" title="Girar 90°">🔄</button>
-            <button class="btn-tool" id="action-undo" title="Desfazer">↩️</button>
+            <button class="btn-tool" id="action-rotate" title="Girar 90°"><ui-icon name="rotate-ccw" size="sm"></ui-icon></button>
+            <button class="btn-tool" id="action-undo" title="Desfazer"><ui-icon name="undo" size="sm"></ui-icon></button>
           </div>
 
           <!-- Bandeja de Controles Secundários -->
@@ -316,7 +316,7 @@ export class ImageEditorModal extends HTMLElement {
             
             <!-- Espessura (Select embutido de forma técnica) -->
             <div class="flex items-center bg-studio-elevated border border-studio-border rounded-md overflow-hidden">
-              <span class="px-2 text-[10px] text-studio-muted font-mono uppercase">Lápis</span>
+              <span class="px-2 text-[10px] text-studio-muted font-mono uppercase"><ui-icon name="pencil" size="xs"></ui-icon> Lápis</span>
               <select id="select-thickness" class="bg-studio-elevated text-white text-[11px] font-mono pl-1 pr-2 py-1.5 outline-none cursor-pointer border-l border-studio-border">
                 <option value="3">FINO</option>
                 <option value="6" selected>MÉDIO</option>
@@ -334,9 +334,9 @@ export class ImageEditorModal extends HTMLElement {
 
             <!-- Zoom -->
             <div class="flex items-center gap-1 bg-studio-elevated p-1 rounded-md border border-studio-border">
-              <button id="zoom-out-editor" class="btn-tool w-6! h-6!">➖</button>
+              <button id="zoom-out-editor" class="btn-tool w-6! h-6!"><ui-icon name="minus" size="sm"></ui-icon></button>
               <span id="zoom-val" class="text-[10px] font-mono w-10 text-center text-white">100%</span>
-              <button id="zoom-in-editor" class="btn-tool w-6! h-6!">➕</button>
+              <button id="zoom-in-editor" class="btn-tool w-6! h-6!"><ui-icon name="plus" size="sm"></ui-icon></button>
             </div>
           </div>
         </div>
@@ -353,8 +353,8 @@ export class ImageEditorModal extends HTMLElement {
         <!-- Metadados e Marca d'água -->
         <div class="bg-studio-elevated p-4 rounded-lg border border-studio-border space-y-4">
           <div class="grid grid-cols-2 gap-4">
-            <app-input label="📍 Localização" id="meta-location" value="${escapeHTML(imgData.location || '')}" placeholder="Ex: Setor A"></app-input>
-            <app-input label="📅 Data" id="meta-date" type="date" value="${imgData.date || new Date().toISOString().split('T')[0]}"></app-input>
+            <app-input label-icon="map-pin" label="Localização" id="meta-location" value="${escapeHTML(imgData.location || '')}" placeholder="Ex: Setor A"></app-input>
+            <app-input label-icon="calendar" label="Data" id="meta-date" type="date" value="${imgData.date || new Date().toISOString().split('T')[0]}"></app-input>
           </div>
           <div class="flex items-center gap-3 bg-studio-base p-3 rounded border border-studio-border">
             <!-- Tailwind v4 inline accent color se necessário: style="accent-color: var(--color-accent-primary)" -->

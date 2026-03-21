@@ -79,7 +79,7 @@ export class PreviewPanel extends HTMLElement {
     alert.innerHTML = `
     <div class="flex items-center justify-between gap-4">
       <span class="flex items-center gap-2">
-        <span class="text-amber-500">⚠️</span>
+        <span class="text-amber-500"><ui-icon name="alert-triangle" size="sm"></ui-icon></span>
         <span>${count} pendência${plural} detectada${plural}</span>
       </span>
       <button 
@@ -113,7 +113,9 @@ export class PreviewPanel extends HTMLElement {
 
     modal.innerHTML = `
     <div slot="header">
-      <h1>📋 Pendências de Conformidade</h1>
+      <h1 slot="header" class="text-white font-bold flex items-center gap-2 text-sm uppercase tracking-tight font-mono">
+        <span class="text-accent-primary"><ui-icon name="clipboard-pen" size="md"></ui-icon></span> Pendências de Conformidade
+      </h1>
     </div>
     <div class="space-y-4">
       <p class="text-xs text-studio-muted leading-relaxed">
@@ -164,8 +166,8 @@ export class PreviewPanel extends HTMLElement {
       this.innerHTML = this.renderPage(
         config,
         `
-        <div class="flex flex-col items-center justify-center py-40 opacity-20 border-2 border-dashed border-paper-text/20 rounded-xl">
-          <span class="text-6xl mb-4">✍️</span>
+        <div class="flex flex-col items-center justify-center py-10 opacity-20 border-2 border-dashed border-paper-text/20 rounded-xl">
+          <span class="text-6xl mb-4"><ui-icon name="pencil-ruler" size="256"></ui-icon></span>
           <p class="font-bold uppercase tracking-widest text-center text-paper-text">Inicie o relatório adicionando<br>módulos no painel lateral</p>
         </div>
       `,
@@ -268,12 +270,14 @@ export class PreviewPanel extends HTMLElement {
 Configure:
   - Tamanho do papel: A4
   - Margens: Nenhuma (None)
-  - Gráficos de fundo: Ativado ✅ (para preservar cores)">🖨️ PDF</app-button>
+  - Gráficos de fundo: Ativado ✅ (para preservar cores)"><ui-icon name="printer" size="sm"></ui-icon> PDF</app-button>
             <div class="flex items-center bg-white/50 rounded-md border border-paper-desk p-1 gap-1">
-              <button id="zoom-out" class="p-1 hover:bg-white rounded transition-colors" title="Zoom Out">➖</button>
+              <button id="zoom-out" class="p-1 w-8 h-8 hover:bg-white text-paper-text/30 hover:text-paper-text rounded transition-colors" title="Zoom Out"><ui-icon name="minus" size="sm"></ui-icon></button>
+              
               <span class="text-[10px] font-mono font-bold w-12 text-center text-paper-text/60">${Math.round(ui.previewScale * 100)}%</span>
-              <button id="zoom-in" class="p-1 hover:bg-white rounded transition-colors" title="Zoom In">➕</button>
-              <button id="zoom-reset" class="text-[10px] px-1 text-paper-text/30 hover:text-paper-text hover:bg-white rounded transition-colors font-bold" title="Reset Zoom">1:1</button>
+              <button id="zoom-in" class="p-1 w-8 h-8 hover:bg-white text-paper-text/30 hover:text-paper-text hover:scale-110 rounded transition-colors" title="Zoom In"><ui-icon name="plus" size="sm"></ui-icon></button>
+              
+              <button id="zoom-reset" class="text-[10px] px-1 w-8 h-8 text-paper-text/30 hover:text-paper-text hover:scale-110 hover:bg-white rounded transition-colors font-bold" title="Reset Zoom"><ui-icon name="shrink" size="sm"></ui-icon></button>
             </div>
           </div>
           <div class="flex items-center gap-2 text-paper-text/40 text-[10px] font-mono">
@@ -283,7 +287,7 @@ Configure:
           </div>
         </div>
         <div id="overflow-alert" class="hidden animate-pulse bg-accent-danger/10 text-accent-danger border border-accent-danger/20 p-2 rounded text-[10px] font-bold uppercase tracking-widest text-center">
-          ⚠️ Conteúdo excedeu o limite. Use "Quebra de Página".
+          <ui-icon name="alert-triangle" size="md" class="shrink-0"></ui-icon> Conteúdo excedeu o limite. Use "Quebra de Página".
         </div>
         <div id="validation-alert" class="hidden bg-amber-500/10 text-amber-600 animate-pulse border border-amber-500/20 p-2 rounded text-[10px] font-bold uppercase tracking-widest">
           <!-- Conteúdo gerado dinamicamente -->

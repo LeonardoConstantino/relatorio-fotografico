@@ -51,8 +51,8 @@ export class ImageSectionEditor extends HTMLElement {
               <img src="${img.src}" class="w-full h-24 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
               
               <div class="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button class="btn-edit bg-accent-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-[10px] shadow-lg hover:scale-110 transition-transform" data-index="${index}" title="Desenhar">✎</button>
-                <button class="btn-del bg-accent-danger text-white rounded-full w-6 h-6 flex items-center justify-center text-[14px] shadow-lg hover:scale-110 transition-transform" data-index="${index}" title="Excluir">×</button>
+                <button class="btn-edit bg-accent-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-[10px] shadow-lg hover:scale-110 transition-transform" data-index="${index}" title="Desenhar"><ui-icon name="pencil" size="sm"></ui-icon></button>
+                <button class="btn-del bg-accent-danger text-white rounded-full w-8 h-8 flex items-center justify-center text-[14px] shadow-lg hover:scale-110 transition-transform" data-index="${index}" title="Excluir"><ui-icon name="trash" size="sm"></ui-icon></button>
               </div>
 
               <input 

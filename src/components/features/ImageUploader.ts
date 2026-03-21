@@ -77,7 +77,7 @@ export class ImageUploader extends HTMLElement {
           multiple 
           class="absolute inset-0 opacity-0 cursor-pointer z-10"
         />
-        <div class="text-3xl transition-transform group-hover:scale-110">📸</div>
+        <div class="text-3xl transition-transform group-hover:scale-110"><ui-icon name="camera" size="64"></ui-icon></div>
         <div class="text-center">
           <p class="text-sm font-semibold text-white">Clique ou arraste as fotos</p>
           <p class="text-[10px] text-studio-muted uppercase font-mono mt-1">PNG, JPG ou Direto da Câmera</p>

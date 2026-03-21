@@ -6,6 +6,9 @@ import { escapeHTML } from '../../utils/sanitize';
 import { confirmDialog } from '../ui/confirm';
 import { ToastManager } from '../ui/toast';
 
+import logo from '../../assets/img/logo.png';
+console.log('logo :', logo);
+
 // Import Editores
 import '../features/ImageSectionEditor';
 import '../features/EquipmentSectionEditor';
@@ -56,40 +59,52 @@ export class EditorPanel extends HTMLElement {
     this.className = 'panel-editor';
 
     this.innerHTML = `
-      <div id="layout-alert" class="hidden mb-6 bg-accent-danger text-white p-3 rounded-md text-[11px] font-bold uppercase tracking-wider animate-pulse items-center gap-3 shadow-lg">
-        <span>⚠️</span>
+      <!-- Alerta de Layout -->
+      <div id="layout-alert" class="hidden mb-6 bg-accent-danger text-white p-3 rounded-md text-[11px] font-bold uppercase tracking-wider animate-pulse flex items-center gap-3 shadow-lg">
+        <ui-icon name="alert-triangle" size="md" class="shrink-0"></ui-icon>
         <span>Atenção: O conteúdo ultrapassou o limite da página A4. Insira uma quebra de página ou reduza os textos.</span>
       </div>
 
+      <!-- Cabeçalho com Logo Profissional Aura Technical -->
       <div class="flex items-center justify-between mb-8">
-        <h1 class="title-studio !mb-0">📋 Aura Estúdio</h1>
-        <button id="toggle-preview" class="btn btn-outline !py-1 !px-2 text-xs" title="Alternar Preview (Alt+P)">
-          ${store.state.ui.previewVisible ? '👁️' : '🙈'}
-        </button>
+        <div class="flex items-center gap-3">
+          <img src="${logo}" alt="Aura Technical" class="w-8 h-8 object-contain" onerror="this.style.display='none'" />
+          <h1 class="title-studio !mb-0 tracking-tight">Aura Estúdio</h1>
         </div>
+        <button id="toggle-preview" class="btn btn-outline !py-1 !px-2 text-xs" title="Alternar Preview (Alt+P)">
+          ${
+            store.state.ui.previewVisible
+              ? '<ui-icon name="eye" size="sm"></ui-icon>'
+              : '<ui-icon name="eye-off" size="sm"></ui-icon>'
+          }
+        </button>
+      </div>
 
-        <!-- Ações Rápidas -->
-        <div class="grid grid-cols-6 gap-2 mb-6">
-        <button id="quick-start" class="col-span-5 btn btn-primary !py-2 !text-[11px] uppercase tracking-wider" title="Inicia um novo relatório com a estrutura padrão">
-          ⚡ Início Rápido
+      <!-- Ações Rápidas -->
+      <div class="grid grid-cols-6 gap-2 mb-6">
+        <button id="quick-start" class="col-span-5 btn btn-primary !py-2 !text-[11px] uppercase tracking-wider">
+          <ui-icon name="lightning" size="sm"></ui-icon> Início Rápido
         </button>
         <button id="edit-template" class="btn btn-secondary !p-0 flex items-center justify-center text-sm" title="Configurar Template Padrão">
-          ⚙️
+          <ui-icon name="settings" size="sm"></ui-icon>
         </button>
-        </div>
+      </div>
 
-        <section-card header-title="⚙️ Configurações Gerais"
- section-id="global-config" hide-remove>
+      <!-- Como section-card usa atributos HTML para o título, removemos o emoji.
+           Sugestão futura: adicionar um atributo 'header-icon="settings"' no seu componente Custom! -->
+      <section-card header-title="Configurações Gerais" section-id="global-config" hide-remove>
         <div class="space-y-4">
           <!-- Upload de Logo -->
           <div>
             <label class="label-technical">Logo da Empresa</label>
             <div class="flex items-center gap-4">
               <div id="logo-preview" class="w-12 h-12 rounded border border-studio-border bg-studio-elevated flex items-center justify-center overflow-hidden">
-                ${config.logo ? `<img src="${config.logo}" class="w-full h-full object-contain" />` : '<span class="text-xs">LOGO</span>'}
+                ${config.logo ? `<img src="${config.logo}" class="w-full h-full object-contain" />` : '<ui-icon name="image" size="lg" class="text-studio-muted"></ui-icon>'}
               </div>
               <input type="file" id="input-logo" accept="image/*" class="hidden" />
-              <app-button variant="outline" class="py-1! text-[10px]" onclick="document.getElementById('input-logo').click()">Trocar</app-button>
+              <app-button variant="outline" class="py-1! text-[10px]" onclick="document.getElementById('input-logo').click()">
+                <ui-icon name="upload-cloud" size="sm"></ui-icon> Trocar
+              </app-button>
             </div>
           </div>
 
@@ -114,39 +129,53 @@ export class EditorPanel extends HTMLElement {
 
       <sortable-list id="sections-container" class="mt-8 block space-y-4"></sortable-list>
 
+      <!-- Inserir Módulos -->
       <div class="mt-12 pt-8 border-t border-studio-border">
-        <label class="label-technical mb-4 block text-center">Inserir Novo Módulo</label>
+        <label class="label-technical mb-4 flex items-center justify-center gap-2">
+          <ui-icon name="blocks" size="sm"></ui-icon> Inserir Novo Módulo
+        </label>
         <div class="grid grid-cols-2 gap-3">
-          <app-button variant="secondary" id="add-equipment">📦 Equipamento</app-button>
-          <app-button variant="secondary" id="add-text">📝 Texto Livre</app-button>
-          <app-button variant="secondary" id="add-bullets">• Lista Itens</app-button>
-          <app-button variant="secondary" id="add-images">📷 Galeria</app-button>
-          <app-button variant="outline" id="add-pagebreak" class="col-span-2">⤵️ Quebra de Página</app-button>
+          <app-button variant="secondary" id="add-equipment"><ui-icon name="package" size="sm"></ui-icon> Equipamento</app-button>
+          <app-button variant="secondary" id="add-text"><ui-icon name="text" size="sm"></ui-icon> Texto Livre</app-button>
+          <app-button variant="secondary" id="add-bullets"><ui-icon name="list" size="sm"></ui-icon> Lista Itens</app-button>
+          <app-button variant="secondary" id="add-images"><ui-icon name="image" size="sm"></ui-icon> Galeria</app-button>
+          <app-button variant="outline" id="add-pagebreak" class="col-span-2"><ui-icon name="arrow-uturn-down" size="sm"></ui-icon> Quebra de Página</app-button>
         </div>
       </div>
 
+      <!-- Gestão de Dados -->
       <div class="mt-10 pt-8 border-t border-studio-border">
-        <label class="label-technical mb-4 block">💾 Gestão de Dados (JSON)</label>
+        <label class="label-technical mb-4 flex items-center gap-2">
+          <ui-icon name="database" size="sm"></ui-icon> Gestão de Dados (JSON)
+        </label>
         <div class="grid grid-cols-2 gap-3">
-          <app-button variant="outline" id="export-json" class="!py-2 !text-[10px]">📤 Exportar Backup</app-button>
-          <app-button variant="outline" id="import-json" class="!py-2 !text-[10px]">📥 Importar JSON</app-button>
+          <app-button variant="outline" id="export-json" class="!py-2 !text-[10px]">
+            <ui-icon name="download" size="sm"></ui-icon> Exportar Backup
+          </app-button>
+          <app-button variant="outline" id="import-json" class="!py-2 !text-[10px]">
+            <ui-icon name="upload" size="sm"></ui-icon> Importar JSON
+          </app-button>
           <input type="file" id="input-import-json" accept=".json" class="hidden" />
         </div>
       </div>
 
+      <!-- Rodapé / Ações Perigosas -->
       <div class="mt-10 pb-12">
         <div class="flex items-center gap-2 mb-3 group cursor-pointer" onclick="this.querySelector('input').click()">
           <input type="checkbox" id="keep-config" class="w-4 h-4 rounded border-studio-border bg-studio-elevated accent-accent-primary cursor-pointer" checked />
           <label class="label-technical !mb-0 cursor-pointer group-hover:text-white transition-colors">Manter Logo e Dados da Empresa</label>
         </div>
-        <app-button variant="danger" id="clear-report" class="w-full">🗑️ Novo Relatório (Limpar)</app-button>
+        <app-button variant="danger" id="clear-report" class="w-full">
+          <ui-icon name="trash" size="sm"></ui-icon> Novo Relatório (Limpar)
+        </app-button>
       </div>
 
       <!-- Modal: Editor de Template -->
       <ui-modal id="modal-template" size="md" animation="scale">
-        <div slot="header">
-          <h1>Configurar Início Rápido</h1>
+        <div slot="header" class="flex items-center gap-2 text-white font-mono uppercase tracking-tight text-sm">
+          <ui-icon name="lightning" size="md" class="text-accent-primary"></ui-icon> Configurar Início Rápido
         </div>
+        
         <div class="space-y-6">
           <p class="text-xs text-studio-muted leading-relaxed">
             Defina a "receita" padrão que será carregada ao clicar no botão de Início Rápido.
@@ -157,11 +186,11 @@ export class EditorPanel extends HTMLElement {
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="equipment">+ Equipamento</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="images">+ Galeria</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="text">+ Texto</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="bullets">+ Lista</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="pagebreak">+ Quebra</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="equipment"><ui-icon name="plus" size="xs"></ui-icon> Equipamento</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="images"><ui-icon name="plus" size="xs"></ui-icon> Galeria</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="text"><ui-icon name="plus" size="xs"></ui-icon> Texto</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="bullets"><ui-icon name="plus" size="xs"></ui-icon> Lista</button>
+            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="pagebreak"><ui-icon name="plus" size="xs"></ui-icon> Quebra</button>
           </div>
         </div>
 
@@ -172,8 +201,7 @@ export class EditorPanel extends HTMLElement {
       </ui-modal>
 
       <app-status-bar></app-status-bar>
-      `;
-
+    `;
 
     this.setupActions();
   }
@@ -186,7 +214,7 @@ export class EditorPanel extends HTMLElement {
     container.innerHTML = sections
       .map(
         (section) => `
-      <section-card header-title="${escapeHTML(this.getSectionLabel(section.type))}" section-id="${section.id}">
+      <section-card header-icon="${escapeHTML(this.getSectionLabel(section.type).iconName)}" header-title="${escapeHTML(this.getSectionLabel(section.type).label)}" section-id="${section.id}">
         ${this.renderSectionEditor(section.id, section.type)}
       </section-card>
     `,
@@ -226,7 +254,7 @@ export class EditorPanel extends HTMLElement {
     if (logoPreview) {
       logoPreview.innerHTML = data.config.logo
         ? `<img src="${data.config.logo}" class="w-full h-full object-contain" />`
-        : '<span class="text-xs">LOGO</span>';
+        : '<ui-icon name="image" size="lg" class="text-studio-muted"></ui-icon>';
     }
 
     const inputs = this.querySelectorAll<any>('app-input[data-prop]');
@@ -240,8 +268,9 @@ export class EditorPanel extends HTMLElement {
     });
 
     const toggleBtn = this.querySelector('#toggle-preview');
-    if (toggleBtn) {
-      toggleBtn.textContent = data.ui.previewVisible ? '👁️' : '🙈';
+    const iconEye = toggleBtn?.querySelector('ui-icon');
+    if (toggleBtn && iconEye) {
+      iconEye.name = data.ui.previewVisible ? 'eye' : 'eye-off';
     }
   }
 
@@ -252,9 +281,14 @@ export class EditorPanel extends HTMLElement {
 
     this.querySelector('#quick-start')?.addEventListener('click', async () => {
       const confirmed = await confirmDialog.ask(
-        'Iniciar com Template?', 
+        'Iniciar com Template?',
         'Isso irá apagar as seções atuais e criar a estrutura padrão de inspeção. Os dados da empresa serão mantidos.',
-        { confirmText: 'Sim, Iniciar', cancelText: 'Manter Atual', countdown: 1, variant: 'warning' }
+        {
+          confirmText: 'Sim, Iniciar',
+          cancelText: 'Manter Atual',
+          countdown: 1,
+          variant: 'warning',
+        },
       );
       if (confirmed) {
         store.applyTemplate(store.getQuickTemplate());
@@ -276,9 +310,9 @@ export class EditorPanel extends HTMLElement {
     this.addEventListener('click', (e: any) => {
       const addType = e.target.getAttribute('data-add-tmpl');
       if (addType && this.draftTemplate) {
-        this.draftTemplate.sections.push({ 
-          type: addType, 
-          defaultTitle: this.getSectionLabel(addType as any) 
+        this.draftTemplate.sections.push({
+          type: addType,
+          defaultTitle: this.getSectionLabel(addType as any),
         });
         this.renderTemplateList(listTmpl);
       }
@@ -295,31 +329,43 @@ export class EditorPanel extends HTMLElement {
       if (this.draftTemplate) {
         store.setCustomTemplate(this.draftTemplate);
         modalTmpl.close();
-        ToastManager.show({ message: 'Template configurado com sucesso!', type: 'success' });
+        ToastManager.show({
+          message: 'Template configurado com sucesso!',
+          type: 'success',
+        });
       }
     });
 
     // Exportar JSON
     this.querySelector('#export-json')?.addEventListener('click', () => {
       const state = store.state;
-      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify(state, null, 2)], {
+        type: 'application/json',
+      });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       const date = new Date().toISOString().split('T')[0];
       const fileName = `aura_report_${state.config.reportNumber || 'backup'}_${date}.json`;
-      
+
       a.href = url;
       a.download = fileName;
       a.click();
       URL.revokeObjectURL(url);
 
-      ToastManager.show({ message: 'Backup exportado com sucesso!', type: 'success' });
+      ToastManager.show({
+        message: 'Backup exportado com sucesso!',
+        type: 'success',
+      });
       logger.info('EditorPanel', 'Relatório exportado como JSON:', fileName);
     });
 
     // Importar JSON
-    const fileInput = this.querySelector('#input-import-json') as HTMLInputElement;
-    this.querySelector('#import-json')?.addEventListener('click', () => fileInput.click());
+    const fileInput = this.querySelector(
+      '#input-import-json',
+    ) as HTMLInputElement;
+    this.querySelector('#import-json')?.addEventListener('click', () =>
+      fileInput.click(),
+    );
 
     fileInput?.addEventListener('change', async (e: any) => {
       const file = e.target.files[0];
@@ -330,29 +376,47 @@ export class EditorPanel extends HTMLElement {
         const imported = JSON.parse(text);
 
         // Validação básica de estrutura
-        if (!imported.meta || !imported.config || !Array.isArray(imported.sections)) {
+        if (
+          !imported.meta ||
+          !imported.config ||
+          !Array.isArray(imported.sections)
+        ) {
           throw new Error('Formato de arquivo Aura inválido.');
         }
 
         const confirmed = await confirmDialog.ask(
           'Importar Dados?',
           'Isso irá substituir completamente o relatório atual pelos dados do arquivo. Deseja continuar?',
-          { variant: 'warning', confirmText: 'Sim, Importar', cancelText: 'Cancelar', countdown: 1 }
+          {
+            variant: 'warning',
+            confirmText: 'Sim, Importar',
+            cancelText: 'Cancelar',
+            countdown: 1,
+          },
         );
 
         if (confirmed) {
           store.loadState(imported);
           fileInput.value = '';
 
-          ToastManager.show({ message: 'Relatório importado com sucesso!', type: 'success' });
-          logger.info('EditorPanel', 'Relatório importado com sucesso:', file.name);
+          ToastManager.show({
+            message: 'Relatório importado com sucesso!',
+            type: 'success',
+          });
+          logger.info(
+            'EditorPanel',
+            'Relatório importado com sucesso:',
+            file.name,
+          );
         }
       } catch (err) {
-        ToastManager.show({ message: 'Erro na importação: ' + (err as Error).message, type: 'error' });
+        ToastManager.show({
+          message: 'Erro na importação: ' + (err as Error).message,
+          type: 'error',
+        });
         logger.error('EditorPanel', 'Falha ao importar JSON:', err);
       }
     });
-
 
     window.addEventListener('keydown', (e) => {
       if (e.altKey && (e.key === 'p' || e.key === 'P')) {
@@ -399,20 +463,23 @@ export class EditorPanel extends HTMLElement {
       }
     });
 
-    this.querySelector('#keep-config')?.addEventListener('click', (e) => e.stopPropagation());
+    this.querySelector('#keep-config')?.addEventListener('click', (e) =>
+      e.stopPropagation(),
+    );
 
     this.querySelector('#clear-report')?.addEventListener('click', async () => {
-      const keep = (this.querySelector('#keep-config') as HTMLInputElement)?.checked;
+      const keep = (this.querySelector('#keep-config') as HTMLInputElement)
+        ?.checked;
       const title = 'Novo Relatório';
-      const msg = keep 
-        ? 'Deseja limpar todas as seções? (A logo e os dados da empresa serão mantidos).' 
+      const msg = keep
+        ? 'Deseja limpar todas as seções? (A logo e os dados da empresa serão mantidos).'
         : 'Deseja limpar TODO o relatório e configurações? Esta ação é irreversível.';
 
       const confirmed = await confirmDialog.ask(title, msg, {
         variant: 'danger',
         confirmText: 'Sim, Limpar',
         cancelText: 'Cancelar',
-        countdown: 3
+        countdown: 3,
       });
 
       if (confirmed) {
@@ -441,21 +508,40 @@ export class EditorPanel extends HTMLElement {
       return;
     }
 
-    container.innerHTML = this.draftTemplate.sections.map((s: any, i: number) => `
+    container.innerHTML = this.draftTemplate.sections
+      .map(
+        (s: any, i: number) => `
       <div class="flex items-center justify-between bg-studio-elevated p-2 rounded border border-studio-border group">
-        <span class="text-[11px] font-mono text-white">${this.getSectionLabel(s.type)}</span>
-        <button type="button" class="btn-remove-tmpl p-1 opacity-0 group-hover:opacity-100 text-accent-danger hover:scale-110 transition-all" data-index="${i}">✕</button>
+        <span class="text-[11px] font-mono text-white"><ui-icon name="${this.getSectionLabel(s.type).iconName}" size="sm"></ui-icon> ${this.getSectionLabel(s.type).label}</span>
+        <button type="button" class="btn-remove-tmpl p-1 opacity-0 group-hover:opacity-100 text-accent-danger hover:scale-110 transition-all" data-index="${i}"><ui-icon name="trash" size="sm"></ui-icon></button>
       </div>
-    `).join('');
+    `,
+      )
+      .join('');
   }
 
-  private getSectionLabel(type: SectionType): string {
-    const labels: Record<SectionType, string> = {
-      equipment: '📦 Equipamento',
-      text: '📝 Texto Livre',
-      bullets: '• Lista de Itens',
-      images: '📷 Registro Fotográfico',
-      pagebreak: '⤵️ Quebra de Página',
+  private getSectionLabel(type: SectionType): {label: string, iconName: string} {
+    const labels: Record<SectionType, {label: string, iconName: string}> = {
+      equipment: {
+        label: 'Equipamento',
+        iconName: 'package'
+      },
+      text: {
+        label: 'Texto Livre',
+        iconName: 'text'
+      },
+      bullets: {
+        label: 'Lista de Itens',
+        iconName: 'list'
+      },
+      images: {
+        label: 'Registro Fotográfico',
+        iconName: 'image'
+      },
+      pagebreak: {
+        label: 'Quebra de Página',
+        iconName: 'arrow-uturn-down'
+      },
     };
     return labels[type];
   }

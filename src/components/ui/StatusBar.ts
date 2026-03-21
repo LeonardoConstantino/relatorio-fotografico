@@ -67,8 +67,10 @@ export class StatusBar extends HTMLElement {
           <span title="Total de Módulos">MODS: ${sectionCount}</span>
           <span title="Total de Fotos">FOTOS: ${imageCount}</span>
           <span title="Páginas Estimadas">PAGS: ${pageCount}</span>
-          ${this.warnings.length > 0 ? `<span class="text-[#F59E0B] font-bold animate-pulse" title="${this.warnings.map(w => w.message).join('\n')}">⚠️ ${this.warnings.length}</span>` : ''}
-          <span id="view-toggle-status" class="text-accent-primary font-bold cursor-pointer hover:scale-110 transition-transform px-1" title="Alternar Preview (Alt+P)">VIEW: ${state.ui.previewVisible ? '👁️' : '🙈'}</span>
+          ${this.warnings.length > 0 ? `<span class="text-[#F59E0B] font-bold animate-pulse" title="${this.warnings.map(w => w.message).join('\n')}"><ui-icon name="alert-triangle" size="xs" class="shrink-0"></ui-icon> ${this.warnings.length}</span>` : ''}
+          <span id="view-toggle-status" class="text-accent-primary font-bold cursor-pointer hover:scale-110 transition-transform px-1" title="Alternar Preview (Alt+P)">VIEW: ${state.ui.previewVisible
+              ? '<ui-icon name="eye" size="xs"></ui-icon>'
+              : '<ui-icon name="eye-off" size="xs"></ui-icon>'}</span>
         </div>
       </div>
       <div class="flex items-center gap-2 font-mono text-[9px] text-studio-muted cursor-help" title="${titleInfo}">

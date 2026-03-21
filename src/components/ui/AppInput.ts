@@ -33,13 +33,17 @@ export class AppInput extends HTMLElement {
 
   render() {
     const label = this.getAttribute('label') || '';
+    const labelIcon = this.getAttribute('label-icon') || '';
     const value = this.getAttribute('value') || '';
     const placeholder = this.getAttribute('placeholder') || '';
     const type = this.getAttribute('type') || 'text';
 
     this.innerHTML = `
       <div class="mb-4 w-full">
-        ${label ? `<label for="${this.inputId}" class="label-technical">${label}</label>` : ''}
+        <div class="flex gap-1">
+          ${labelIcon ? `<ui-icon name="${labelIcon}" size="sm"></ui-icon>` : ''}
+          ${label ? `<label for="${this.inputId}" class="label-technical">${label}</label>` : ''}
+        </div>
         <input 
           id="${this.inputId}"
           name="${this.inputId}"

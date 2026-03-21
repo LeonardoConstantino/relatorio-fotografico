@@ -25,6 +25,7 @@ export class SectionCard extends HTMLElement {
     }
 
     const title = this.getAttribute('header-title') || 'Seção';
+    const icon = this.getAttribute('header-icon') || 'settings';
     const sectionId = this.getAttribute('section-id') || '';
     const hideRemove = this.hasAttribute('hide-remove');
 
@@ -44,6 +45,7 @@ export class SectionCard extends HTMLElement {
                 : ''
             }
             <h4 class="font-sans font-semibold text-white flex items-center gap-2">
+              <ui-icon name="${icon}" size="md"></ui-icon>
               ${title}
             </h4>
           </div>
