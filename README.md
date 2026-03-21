@@ -1,10 +1,21 @@
 # 📋 Aura Technical: Gerador de Relatórios Fotográficos v2.0
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
-![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
-![Web Components](https://img.shields.io/badge/Web_Components-ff69b4?style=flat&logo=webcomponents&logoColor=white)
-![PWA](https://img.shields.io/badge/PWA-Ready-blue?style=flat)
-![License](https://img.shields.io/badge/licença-MIT-green?style=flat)
+<div align="center">
+
+   ![Project Banner](./src/assets/img/banner.png)
+
+   [🚀 Live Demo](https://leonardoconstantino.github.io/Prompt-Manager/)
+
+   ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+   ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+   ![Web Components](https://img.shields.io/badge/Web_Components-ff69b4?style=flat&logo=webcomponents&logoColor=white)
+   ![PWA](https://img.shields.io/badge/PWA-Ready-blue?style=flat)
+   ![License](https://img.shields.io/badge/licença-MIT-green?style=flat)
+</div>
+
+
+
+
 
 > Solução corporativa de alta performance para criação de laudos e relatórios de inspeção. Focada em agilidade, fidelidade visual e funcionamento offline total.
 
