@@ -4,7 +4,7 @@
 
 ![Project Banner](./src/assets/img/banner.png)
 
-[🚀 Live Demo](https://leonardoconstantino.github.io/Prompt-Manager/)
+[🚀 Live Demo](https://leonardoconstantino.github.io/relatorio-fotografico/)
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
