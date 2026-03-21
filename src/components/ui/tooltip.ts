@@ -225,8 +225,8 @@ class TooltipBalloon extends HTMLElement {
     }
 
     this.setAttribute('data-placement', chosen);
-    this.style.top = `${coords.top}px`;
-    this.style.left = `${coords.left}px`;
+    this.style.top = `${coords?.top || 20}px`;
+    this.style.left = `${coords?.left || 20}px`;
   }
 
   #calcCoords(

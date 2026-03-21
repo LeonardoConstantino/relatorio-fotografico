@@ -37,15 +37,13 @@ export class SectionCard extends HTMLElement {
               !hideRemove
                 ? `
               <div class="drag-handle cursor-grab active:cursor-grabbing text-studio-muted hover:text-white p-1 select-none">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M7 7h2v2H7V7zm0 4h2v2H7v-2zm0 4h2v2H7v-2zm4-8h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
-                </svg>
+                <ui-icon name="grip" size="md"></ui-icon>
               </div>
             `
                 : ''
             }
             <h4 class="font-sans font-semibold text-white flex items-center gap-2">
-              <ui-icon name="${icon}" size="md"></ui-icon>
+              <ui-icon name="${icon}" size="sm"></ui-icon>
               ${title}
             </h4>
           </div>
@@ -53,7 +51,7 @@ export class SectionCard extends HTMLElement {
             !hideRemove
               ? `
             <button class="btn-remove btn btn-danger py-1 px-2 text-[10px] uppercase font-mono tracking-tighter">
-              Excluir
+              <ui-icon name="trash" size="sm"></ui-icon>
             </button>
           `
               : ''

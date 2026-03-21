@@ -44,7 +44,7 @@ export class BulletSectionEditor extends HTMLElement {
                 data-index="${index}" 
                 placeholder="Item ${index + 1}"
               />
-              <button class="btn-del-item text-accent-danger opacity-0 group-hover:opacity-100 p-1 transition-opacity" data-index="${index}">×</button>
+              <button class="btn-del-item text-accent-danger opacity-0 group-hover:opacity-100 p-1 transition-opacity" data-index="${index}"><ui-icon name="trash" size="xs"></ui-icon></button>
             </div>
           `,
             )
@@ -52,7 +52,7 @@ export class BulletSectionEditor extends HTMLElement {
         </div>
 
         <app-button variant="outline" id="add-item" class="py-1.5! text-[10px] uppercase font-mono">
-          + Adicionar Item
+          <ui-icon name="plus" size="sm"></ui-icon> Adicionar Item
         </app-button>
       </div>
     `;

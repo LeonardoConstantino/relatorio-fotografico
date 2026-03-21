@@ -21,6 +21,10 @@ describe('AppStore', () => {
         reportDate: '',
       },
       sections: [],
+      ui: {
+        previewVisible: true,
+        previewScale: 1,
+      },
     });
   });
 

@@ -39,6 +39,10 @@ describe('Domain Models (Task 02)', () => {
           },
         },
       ],
+      ui: {
+        previewVisible: true,
+        previewScale: 1,
+      },
     };
 
     expect(mockReport.meta.schemaVersion).toBe('2.0');

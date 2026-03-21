@@ -26,7 +26,6 @@ export class StatusBar extends HTMLElement {
     });
     EventBus.on(STORE_EVENTS.VALIDATION_UPDATED, (warnings: Array<{ message: string; sectionId?: string; field?: string }> = []) => {
       this.warnings = warnings;
-      console.log('warnings :', warnings);
       this.render();
     });
   }

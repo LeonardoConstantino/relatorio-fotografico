@@ -5,9 +5,7 @@ import { SectionType } from '../../types/Section';
 import { escapeHTML } from '../../utils/sanitize';
 import { confirmDialog } from '../ui/confirm';
 import { ToastManager } from '../ui/toast';
-
 import logo from '../../assets/img/logo.png';
-console.log('logo :', logo);
 
 // Import Editores
 import '../features/ImageSectionEditor';

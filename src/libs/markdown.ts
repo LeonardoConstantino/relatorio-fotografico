@@ -73,7 +73,7 @@ class MarkdownParser {
       {
         name: 'codeBlockLang',
         pattern: /```(\w+)?\n([\s\S]*?)```/g,
-        replacement: (match: string, lang: string, code: string): string => {
+        replacement: (lang: string, code: string): string => {
           const langClass = lang ? ` language-${this._escapeHtml(lang)}` : '';
           return `<pre class="md-code-block"><code class="${langClass}">${this._escapeHtml(code.trim())}</code></pre>`;
         },
@@ -83,7 +83,7 @@ class MarkdownParser {
       {
         name: 'inlineCode',
         pattern: /`([^`]+)`/g,
-        replacement: (match: string, code: string): string =>
+        replacement: (code: string): string =>
           `<code class="md-inline-code">${this._escapeHtml(code)}</code>`,
       },
 
@@ -109,13 +109,13 @@ class MarkdownParser {
       {
         name: 'image',
         pattern: /!\[([^\]]*)\]\(([^)]+)\)/g,
-        replacement: (match: string, alt: string, url: string): string =>
+        replacement: (alt: string, url: string): string =>
           `<img src="${this._escapeHtml(url)}" alt="${this._escapeHtml(alt)}" class="md-image">`,
       },
       {
         name: 'link',
         pattern: /\[([^\]]+)\]\(([^)]+)\)/g,
-        replacement: (match: string, text: string, url: string): string =>
+        replacement: (text: string, url: string): string =>
           `<a href="${this._escapeHtml(url)}" class="md-link">${this._escapeHtml(text)}</a>`,
       },
 
@@ -141,7 +141,7 @@ class MarkdownParser {
       {
         name: 'tableRow',
         pattern: /^\|(.+)\|$/gm,
-        replacement: (match: string, cells: string): string => {
+        replacement: (cells: string): string => {
           // Divide células pelo delimitador |, apara espaços e gera <td> individuais
           const tds = cells
             .split('|')
