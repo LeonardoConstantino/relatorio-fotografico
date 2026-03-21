@@ -225,11 +225,11 @@ class AppStore {
       id: 'default-quick-start',
       name: 'Inspeção Padrão',
       sections: [
-        { type: 'equipment', defaultTitle: '📦 Identificação do Equipamento' },
-        { type: 'images', defaultTitle: '📷 Registro de Entrada' },
-        { type: 'images', defaultTitle: '📷 Registro de Saída' },
-        { type: 'images', defaultTitle: '📷 Detalhes Críticos' },
-        { type: 'text', defaultTitle: '📝 Observações Finais' },
+        { type: 'equipment', defaultTitle: 'Identificação do Equipamento' },
+        { type: 'images', defaultTitle: 'Registro de Entrada' },
+        { type: 'images', defaultTitle: 'Registro de Saída' },
+        { type: 'images', defaultTitle: 'Detalhes Críticos' },
+        { type: 'text', defaultTitle: 'Observações Finais' },
       ],
     };
   }
@@ -330,13 +330,13 @@ class AppStore {
    */
   private getSectionLabel(type: SectionType): string {
     const labels: Record<SectionType, string> = {
-      equipment: '📦 Equipamento',
-      text: '📝 Texto',
-      bullets: '📋 Lista',
-      images: '📷 Galeria',
-      pagebreak: '⏸️ Quebra de Página',
+      equipment: 'Equipamento',
+      text: 'Texto',
+      bullets: 'Lista',
+      images: 'Galeria',
+      pagebreak: ' Quebra de Página',
     };
-    return labels[type] || '❓ Desconhecido';
+    return labels[type] || 'Desconhecido';
   }
 
   private notify(): void {

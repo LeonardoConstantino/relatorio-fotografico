@@ -310,7 +310,7 @@ export class EditorPanel extends HTMLElement {
       if (addType && this.draftTemplate) {
         this.draftTemplate.sections.push({
           type: addType,
-          defaultTitle: this.getSectionLabel(addType as any),
+          defaultTitle: this.getSectionLabel(addType as any).label,
         });
         this.renderTemplateList(listTmpl);
       }
