@@ -42,7 +42,7 @@ Linha horizontal: ---`;
         <app-input label="Título da Seção" value="${data.title}" data-field="title"></app-input>
         <div>
           <div class="flex justify-between items-center mb-2">
-            <label class="label-technical !mb-0">Conteúdo</label>
+            <label class="label-technical mb-0!">Conteúdo</label>
             <span class="text-[9px] font-mono text-studio-muted flex items-center gap-1 opacity-70 cursor-help" title="${markdownCheatSheet}">
               <span class="border border-studio-border rounded flex items-center justify-center text-[9px] font-bold">M↓</span>
               Markdown Ativo

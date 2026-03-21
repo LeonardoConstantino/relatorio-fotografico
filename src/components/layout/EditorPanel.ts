@@ -58,7 +58,7 @@ export class EditorPanel extends HTMLElement {
 
     this.innerHTML = `
       <!-- Alerta de Layout -->
-      <div id="layout-alert" class="hidden mb-6 bg-accent-danger text-white p-3 rounded-md text-[11px] font-bold uppercase tracking-wider animate-pulse flex items-center gap-3 shadow-lg">
+      <div id="layout-alert" class="hidden mb-6 bg-accent-danger text-white p-3 rounded-md text-[11px] font-bold uppercase tracking-wider animate-pulse items-center gap-3 shadow-lg">
         <ui-icon name="alert-triangle" size="md" class="shrink-0"></ui-icon>
         <span>Atenção: O conteúdo ultrapassou o limite da página A4. Insira uma quebra de página ou reduza os textos.</span>
       </div>
@@ -67,9 +67,9 @@ export class EditorPanel extends HTMLElement {
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
           <img src="${logo}" alt="Aura Technical" class="w-8 h-8 object-contain" onerror="this.style.display='none'" />
-          <h1 class="title-studio !mb-0 tracking-tight">Aura Estúdio</h1>
+          <h1 class="title-studio mb-0! tracking-tight">Aura Estúdio</h1>
         </div>
-        <button id="toggle-preview" class="btn btn-outline !py-1 !px-2 text-xs" title="Alternar Preview (Alt+P)">
+        <button id="toggle-preview" class="btn btn-outline py-1! px-2! text-xs" title="Alternar Preview (Alt+P)">
           ${
             store.state.ui.previewVisible
               ? '<ui-icon name="eye" size="sm"></ui-icon>'
@@ -80,10 +80,10 @@ export class EditorPanel extends HTMLElement {
 
       <!-- Ações Rápidas -->
       <div class="grid grid-cols-6 gap-2 mb-6">
-        <button id="quick-start" class="col-span-5 btn btn-primary !py-2 !text-[11px] uppercase tracking-wider">
+        <button id="quick-start" class="col-span-5 btn btn-primary py-2! text-[11px]! uppercase tracking-wider">
           <ui-icon name="lightning" size="sm"></ui-icon> Início Rápido
         </button>
-        <button id="edit-template" class="btn btn-secondary !p-0 flex items-center justify-center text-sm" title="Configurar Template Padrão">
+        <button id="edit-template" class="btn btn-secondary p-0! flex items-center justify-center text-sm" title="Configurar Template Padrão">
           <ui-icon name="settings" size="sm"></ui-icon>
         </button>
       </div>
@@ -147,10 +147,10 @@ export class EditorPanel extends HTMLElement {
           <ui-icon name="database" size="sm"></ui-icon> Gestão de Dados (JSON)
         </label>
         <div class="grid grid-cols-2 gap-3">
-          <app-button variant="outline" id="export-json" class="!py-2 !text-[10px]">
+          <app-button variant="outline" id="export-json" class="py-2! text-[10px]!">
             <ui-icon name="download" size="sm"></ui-icon> Exportar Backup
           </app-button>
-          <app-button variant="outline" id="import-json" class="!py-2 !text-[10px]">
+          <app-button variant="outline" id="import-json" class="py-2! text-[10px]!">
             <ui-icon name="upload" size="sm"></ui-icon> Importar JSON
           </app-button>
           <input type="file" id="input-import-json" accept=".json" class="hidden" />
@@ -161,7 +161,7 @@ export class EditorPanel extends HTMLElement {
       <div class="mt-10 pb-12">
         <div class="flex items-center gap-2 mb-3 group cursor-pointer" onclick="this.querySelector('input').click()">
           <input type="checkbox" id="keep-config" class="w-4 h-4 rounded border-studio-border bg-studio-elevated accent-accent-primary cursor-pointer" checked />
-          <label class="label-technical !mb-0 cursor-pointer group-hover:text-white transition-colors">Manter Logo e Dados da Empresa</label>
+          <label class="label-technical mb-0! cursor-pointer group-hover:text-white transition-colors">Manter Logo e Dados da Empresa</label>
         </div>
         <app-button variant="danger" id="clear-report" class="w-full">
           <ui-icon name="trash" size="sm"></ui-icon> Novo Relatório (Limpar)
@@ -184,11 +184,11 @@ export class EditorPanel extends HTMLElement {
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="equipment"><ui-icon name="plus" size="xs"></ui-icon> Equipamento</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="images"><ui-icon name="plus" size="xs"></ui-icon> Galeria</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="text"><ui-icon name="plus" size="xs"></ui-icon> Texto</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="bullets"><ui-icon name="plus" size="xs"></ui-icon> Lista</button>
-            <button class="btn btn-secondary !py-1 !text-[10px]" data-add-tmpl="pagebreak"><ui-icon name="plus" size="xs"></ui-icon> Quebra</button>
+            <button class="btn btn-secondary py-1! text-[10px]!" data-add-tmpl="equipment"><ui-icon name="plus" size="xs"></ui-icon> Equipamento</button>
+            <button class="btn btn-secondary py-1! text-[10px]!" data-add-tmpl="images"><ui-icon name="plus" size="xs"></ui-icon> Galeria</button>
+            <button class="btn btn-secondary py-1! text-[10px]!" data-add-tmpl="text"><ui-icon name="plus" size="xs"></ui-icon> Texto</button>
+            <button class="btn btn-secondary py-1! text-[10px]!" data-add-tmpl="bullets"><ui-icon name="plus" size="xs"></ui-icon> Lista</button>
+            <button class="btn btn-secondary py-1! text-[10px]!" data-add-tmpl="pagebreak"><ui-icon name="plus" size="xs"></ui-icon> Quebra</button>
           </div>
         </div>
 
