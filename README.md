@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Project Banner](./src/assets/img/banner.png)
+![Project Banner](./img/banner.png)
 
 [🚀 Live Demo](https://leonardoconstantino.github.io/relatorio-fotografico/)
 
