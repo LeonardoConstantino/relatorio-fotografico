@@ -153,6 +153,110 @@
 }
 
 /* ==========================================
+   HUD TRIGGER (O "FAB" do Aura Technical) - V2
+   ========================================== */
+@layer components {
+  /* O Contêiner Principal */
+  .fab-hud {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    height: 40px;
+    max-width: 40px; /* Começa como um círculo exato 40x40 */
+    border-radius: 99px; /* Arredondamento perfeito */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Esconde o texto que está fora */
+    cursor: pointer;
+    padding: 0; /* Sem padding, controlamos pelo wrapper interno */
+    z-index: 50;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* O Wrapper do Ícone (A Mágica do Centro Perfeito) */
+  .hud-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0; /* Impede que o Flexbox esmague o ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-studio-muted);
+    transition: all 0.3s ease;
+  }
+
+  /* O Wrapper do Conteúdo (Texto e Tecla) */
+  .hud-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 16px; /* Espaço até a borda direita quando expandido */
+    opacity: 0;
+    white-space: nowrap;
+    transform: translateX(-15px); /* Começa levemente para a esquerda */
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* A Tipografia do Texto */
+  .hud-text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem; /* 12px */
+    font-weight: 600;
+    color: var(
+      --color-paper-text
+    ); /* Cinza muito escuro para contraste limpo */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* O Design da Tecla F1 */
+  .hud-key {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--color-studio-muted);
+    border: 1px solid #d4d4d8; /* Zinc 300 */
+    background: #f4f4f5; /* Zinc 100 */
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1); /* Efeito de tecla física */
+  }
+
+  /* =========================================
+     ESTADO HOVER: EXPANSÃO SUCULENTA
+     ========================================= */
+  .fab-hud:hover {
+    max-width: 260px; /* Largura suficiente para revelar todo o conteúdo */
+    background: #ffffff;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 8px 24px -6px rgba(79, 70, 229, 0.3);
+    transform: translateY(-2px); /* Eleva da mesa */
+  }
+
+  /* O ícone acende na cor primária (Indigo) */
+  .fab-hud:hover .hud-icon-wrapper {
+    color: var(--color-accent-primary);
+    transform: rotate(360deg);
+  }
+
+  /* O texto desliza para a direita e aparece */
+  .fab-hud:hover .hud-content {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Estado Clicado */
+  .fab-hud:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+  }
+}
+
+/* ==========================================
    AURA CORE (A Reevolução do Checkbox)
    ========================================== */
 @layer components {

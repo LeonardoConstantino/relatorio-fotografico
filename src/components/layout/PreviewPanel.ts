@@ -3,6 +3,7 @@ import EventBus from '../../libs/EventBus';
 import { logger } from '../../libs/Logger';
 import { MarkdownParser } from '../../libs/markdown';
 import { escapeHTML } from '../../utils/sanitize';
+import { helpData } from '../../assets/data/helpData';
 
 export class PreviewPanel extends HTMLElement {
   private overflowDetected = false;
@@ -293,9 +294,23 @@ Configure:
           <!-- Conteúdo gerado dinamicamente -->
         </div>
       </div>
+      <!-- O HUD Trigger (Nosso FAB Técnico) -->
+      <button class="fab-hud" onclick="document.getElementById('modal-system-help').open()">
+        <!-- Container fixo do ícone (Garante centro perfeito) -->
+        <div class="hud-icon-wrapper">
+          <ui-icon name="book-open" size="sm"></ui-icon>
+        </div>
+        
+        <!-- Container do Texto e Tecla -->
+        <div class="hud-content">
+          <span class="hud-text">Manual do Sistema</span>
+          <kbd class="hud-key">F1</kbd>
+        </div>
+      </button>
       <div class="sheets-wrapper flex flex-col items-center">
         ${currentPages.map((html, i) => this.renderPage(config, html, i + 1, currentPages.length, i === 0, traceId, ui.previewScale)).join('')}
       </div>
+      ${this.renderHelpModal()}
     `;
 
     this.querySelector('#btn-print-action')?.addEventListener('click', () =>
@@ -367,6 +382,129 @@ Configure:
         </footer>
       </div>
     `;
+  }
+
+  private renderHelpModal() {
+    // Constrói os blocos de Tutorial (Estilo Manual Técnico)
+    const tutorialHTML = helpData.tutorialSection
+      .map(
+        (item) => `
+    <div class="mb-8 group">
+      <h4 class="flex items-center gap-2 text-white font-mono text-sm uppercase tracking-wider mb-3">
+        <ui-icon name="command-line" size="sm" class="text-accent-primary"></ui-icon>
+        ${item.id}. ${item.title}
+      </h4>
+      <div class="pl-6 border-l-2 border-studio-border group-hover:border-accent-primary transition-colors duration-300">
+        <p class="text-studio-muted text-sm leading-relaxed whitespace-pre-line">${item.content}</p>
+      </div>
+    </div>
+  `,
+      )
+      .join('');
+
+    // Constrói o FAQ (Estilo Log de Diagnóstico)
+    const faqHTML = helpData.faqItens
+      .map(
+        (faq) => `
+    <div class="bg-studio-base p-4 rounded-lg border border-studio-border mb-4 hover:border-studio-muted transition-colors">
+      <div class="flex items-start gap-3 mb-2">
+        <ui-icon name="alert-circle" size="sm" class="text-accent-danger shrink-0 mt-0.5"></ui-icon>
+        <span class="text-white text-sm font-medium leading-snug">${faq.q}</span>
+      </div>
+      <div class="flex items-start gap-3 pl-8">
+        <ui-icon name="corner-down-right" size="sm" class="text-accent-cyan shrink-0"></ui-icon>
+        <span class="text-studio-muted text-sm leading-relaxed">${faq.a}</span>
+      </div>
+    </div>
+  `,
+      )
+      .join('');
+
+    // Constrói as Pro Tips (Grid de Cartões de Telemetria)
+    const tipsHTML = helpData.proTips
+      .map(
+        (tip) => `
+    <div class="bg-studio-elevated p-4 rounded-lg border border-studio-border hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3">
+      <div class="w-8 h-8 rounded-full bg-studio-base border border-studio-border flex items-center justify-center text-accent-cyan shadow-inner">
+        <ui-icon name="${tip.icon || 'sparkles'}" size="sm"></ui-icon>
+      </div>
+      <p class="text-studio-muted text-xs leading-relaxed">${tip.tip}</p>
+    </div>
+  `,
+      )
+      .join('');
+
+    // Injeta o Modal no DOM (ou retorna a string se estiver usando innerHTML)
+    return `
+    <ui-modal id="modal-system-help" size="xl" animation="scale">
+      <div slot="header" class="flex items-center gap-3 text-accent-cyan font-mono uppercase tracking-widest text-sm">
+        <ui-icon name="book-open" size="md"></ui-icon>
+        Documentação do Sistema
+      </div>
+
+      <!-- Layout Split: Sidebar (Índice) + Conteúdo -->
+      <div class="flex flex-col md:flex-row gap-8 h-[65vh]">
+        
+        <!-- Sidebar Navegação -->
+        <div class="w-full md:w-64 shrink-0 flex flex-col gap-2 border-b md:border-b-0 md:border-r border-studio-border pb-4 md:pb-0 md:pr-6">
+          <div class="label-technical mb-2">Índice Operacional</div>
+          
+          <a class="flex items-center gap-3 p-3 rounded-md bg-studio-elevated border border-studio-border text-white text-sm text-left transition-colors hover:border-accent-primary" href="#help-tutorial">
+            <ui-icon name="cpu" size="sm"></ui-icon> Operação Base
+          </a>
+          
+          <a class="flex items-center gap-3 p-3 rounded-md bg-transparent border border-transparent text-studio-muted text-sm text-left transition-colors hover:bg-studio-elevated hover:text-white" href="#help-faq">
+            <ui-icon name="stethoscope" size="sm"></ui-icon> Diagnóstico (FAQ)
+          </a>
+          
+          <a class="flex items-center gap-3 p-3 rounded-md bg-transparent border border-transparent text-studio-muted text-sm text-left transition-colors hover:bg-studio-elevated hover:text-white" href="#help-tips">
+            <ui-icon name="sparkles" size="sm"></ui-icon> Telemetria (Dicas)
+          </a>
+        </div>
+
+        <!-- Área de Leitura (Scrollable) -->
+        <div class="flex-1 overflow-y-auto pr-4 scroll-smooth" id="help-scroll-area">
+          
+          <!-- Seção 1: Tutorial -->
+          <section id="help-tutorial" class="mb-16">
+            <h3 class="text-xl font-bold text-white mb-8 font-mono border-b border-studio-border pb-3 flex items-center gap-2">
+              <span class="text-accent-primary">01.</span> OPERAÇÃO BASE
+            </h3>
+            ${tutorialHTML}
+          </section>
+
+          <!-- Seção 2: FAQ -->
+          <section id="help-faq" class="mb-16">
+            <h3 class="text-xl font-bold text-white mb-8 font-mono border-b border-studio-border pb-3 flex items-center gap-2">
+              <span class="text-accent-primary">02.</span> DIAGNÓSTICO (FAQ)
+            </h3>
+            ${faqHTML}
+          </section>
+
+          <!-- Seção 3: Pro Tips -->
+          <section id="help-tips" class="mb-8">
+            <h3 class="text-xl font-bold text-white mb-8 font-mono border-b border-studio-border pb-3 flex items-center gap-2">
+              <span class="text-accent-primary">03.</span> TELEMETRIA AVANÇADA
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              ${tipsHTML}
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- Footer do Modal -->
+      <div slot="footer" class="flex justify-between items-center w-full">
+        <div class="text-studio-muted text-xs font-mono">
+          Aura Technical OS v4.0.0
+        </div>
+        <button class="btn btn-primary" onclick="document.getElementById('modal-system-help').close()">
+          <ui-icon name="check-circle" size="sm"></ui-icon> Compreendido
+        </button>
+      </div>
+    </ui-modal>
+  `;
   }
 }
 
